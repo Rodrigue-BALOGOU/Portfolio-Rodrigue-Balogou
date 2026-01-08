@@ -1,0 +1,276 @@
+/* Style commun pour les pages de projet */
+.project-page {
+    padding: 100px 20px 50px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.project-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.project-header h1 {
+    color: #ff4d4d;
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+
+.project-header p {
+    color: #ccc;
+    font-size: 1.1em;
+    line-height: 1.6;
+}
+
+.project-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.project-section {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 25px;
+    border-radius: 10px;
+    transition: transform 0.3s;
+}
+
+.project-section:hover {
+    transform: translateY(-5px);
+}
+
+.project-section h2 {
+    color: #ff4d4d;
+    margin-bottom: 15px;
+}
+
+.project-section ul {
+    list-style-position: inside;
+    color: #fff;
+}
+
+.project-section ul li {
+    margin-bottom: 10px;
+}
+
+.project-gallery {
+    margin-top: 50px;
+}
+
+.project-gallery h2 {
+    color: #ff4d4d;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.3s;
+}
+
+.gallery-item:hover img {
+    transform: scale(1.1);
+}
+
+.back-button {
+    display: inline-block;
+    margin-top: 40px;
+    padding: 12px 25px;
+    background: #ff4d4d;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.back-button:hover {
+    background: #ff3333;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .project-page {
+        padding: 80px 15px 30px;
+    }
+
+    .project-header h1 {
+        font-size: 2em;
+    }
+
+    .project-details {
+        grid-template-columns: 1fr;
+    }
+
+    .gallery-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+}
+
+@media (max-width: 480px) {
+    .project-header h1 {
+        font-size: 1.8em;
+    }
+
+    .gallery-item {
+        height: 180px;
+    }
+}
+
+
+.web-project-card{
+    border: 1px solid #ff3333;
+    border-radius: 30px;
+    justify-content: center;
+    padding: 50px;
+}
+
+
+/* ===== Layout: cards en colonne & images en background ===== */
+
+.web-project-card {
+  display: flex;
+  flex-direction: column; /* <-- force colonne */
+  align-items: stretch;
+  justify-content: flex-start;
+  min-height: 480px; /* assure une belle taille visuelle */
+}
+
+/* la "figure" devient le conteneur background (image appliquée via JS) */
+.web-project-figure {
+  width: 100%;
+  height: 340px;               /* grande image visible sur PC */
+  min-height: 260px;           /* fallback mobile */
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed; /* effet demandé (desktop) */
+  position: relative;
+  border-bottom: 1px solid rgba(255,77,77,0.06);
+  overflow: hidden;
+}
+
+/* cacher l'img <img> d'origine (le JS lira la source et mettra en background) */
+.web-project-figure img {
+  display: none !important;
+  visibility: hidden !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* Play overlay (amélioré) */
+.web-project-figure::before{
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(0.98);
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(255,77,77,0.95);
+  clip-path: polygon(40% 30%, 40% 70%, 75% 50%);
+  opacity: 0;
+  transition: opacity 180ms ease, transform 180ms ease;
+  z-index: 4;
+}
+.web-project-card:hover .web-project-figure::before,
+.web-project-figure:focus-within::before {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* adapt image height for larger screens */
+@media (min-width: 1200px) {
+  .web-project-figure { height: 420px; }
+  .web-project-card { min-height: 520px; }
+}
+
+/* fallback: mobile (background-attachment fixed often non supporté) */
+@media (max-width: 520px) {
+  .web-project-figure {
+    background-attachment: scroll;
+    height: 220px;
+    min-height: 160px;
+  }
+  .web-project-card { min-height: auto; }
+}
+
+/* ===== Modal & blur arrière-plan pro ===== */
+
+/* On stylise le modal overlay pour un flou propre */
+#demo-modal {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  padding: 24px;
+  /* overlay semi-opaque + blur */
+  background: rgba(2,2,2,0.55);
+  backdrop-filter: blur(6px) saturate(1.05);
+}
+
+/* quand modal visible (le JS met aria-hidden=false) */
+#demo-modal[aria-hidden="false"] { display: flex; }
+
+/* option: flouter le reste via une classe body (JS l'ajoute) */
+body.modal-open header,
+body.modal-open .project-page,
+body.modal-open footer {
+  filter: blur(4px) brightness(0.95);
+  transition: filter 180ms ease;
+  pointer-events: none; /* évite clics accidentels */
+}
+
+/* contenu modal */
+#demo-modal > div { 
+  width: 100%;
+  max-width: 1000px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: linear-gradient(180deg, #060606, #0d0d0d);
+  border: 1px solid rgba(255,77,77,0.08);
+  box-shadow: 0 30px 80px rgba(0,0,0,0.75), 0 0 40px rgba(255,77,77,0.05);
+  position: relative;
+}
+
+/* iframe responsive */
+#demo-iframe { width: 100%; height: min(70vh, 720px); background: #000; }
+
+/* close btn harmonisé */
+#close-demo {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  z-index: 50;
+  background: #ff4d4d;
+  color: #0d0d0d;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 10px;
+  cursor: pointer;
+}
+#close-demo:hover { transform: scale(1.03); box-shadow: 0 8px 26px rgba(255,77,77,0.22); }
+
+/* accessibilité: focus visible */
+#demo-modal button:focus,
+.web-project-card:focus-within { outline: 3px solid rgba(255,77,77,0.12); outline-offset: 3px; }
+
+/* petite police et espacements */
+.web-project-content { padding: 18px; gap: 10px; display:flex; flex-direction: column; }

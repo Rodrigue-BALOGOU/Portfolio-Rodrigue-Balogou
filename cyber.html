@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Cybersécurité et Machines Vulnérables - Projets de pentesting et sécurité réseau par Rodrigue Balogou. Ethical hacking, exploitation et audits de sécurité.">
+  <meta name="keywords" content="cybersécurité, pentesting, ethical hacking, machines vulnérables, metasploit, kali linux, sécurité réseau, Rodrigue Balogou">
+  <meta name="author" content="Rodrigue Balogou">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="Cybersécurité & Pentesting - Rodrigue Balogou">
+  <meta property="og:description" content="Projets de sécurité : machines vulnérables, pentesting et audits réseau">
+  <meta property="og:type" content="website">
+  <title>Cybersécurité & Pentesting - Rodrigue Balogou | Portfolio</title>
+  <link rel="canonical" href="https://rodriguebalogou.fr/cyber.html">
+  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+  <link rel="icon" href="./image/profil.png" type="image/png" />
+  
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9D7K3L2M4N"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-9D7K3L2M4N');
+  </script>
+
+  <style>
+    /* ===== MODALE VIDÉO ===== */
+    #demo-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.92);
+      z-index: 3000;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      animation: fadeIn 0.3s ease;
+    }
+
+    #demo-modal.active {
+      display: flex;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .modal-content {
+      width: 90%;
+      max-width: 1000px;
+      position: relative;
+      background: #000;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      animation: slideUp 0.35s cubic-bezier(0.25,0.46,0.45,0.94);
+      display: flex;
+      flex-direction: column;
+      max-height: 85vh;
+    }
+
+    /* Onglets de la modale */
+    .modal-tabs {
+      display: flex;
+      gap: 0;
+      background: rgba(30,30,30,0.95);
+      border-bottom: 2px solid rgba(255,77,77,0.2);
+    }
+
+    .modal-tab-btn {
+      flex: 1;
+      padding: 14px 20px;
+      background: transparent;
+      border: none;
+      color: #aaa;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 0.95rem;
+      position: relative;
+    }
+
+    .modal-tab-btn:hover {
+      color: #fff;
+      background: rgba(255,77,77,0.08);
+    }
+
+    .modal-tab-btn.active {
+      color: #ff4d4d;
+    }
+
+    .modal-tab-btn.active::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #ff4d4d, #e63939);
+    }
+
+    /* Contenu des onglets */
+    .modal-tab-content {
+      display: none;
+      flex: 1;
+      overflow: auto;
+      background: #000;
+    }
+
+    .modal-tab-content.active {
+      display: block;
+    }
+
+    /* Galerie vidéos */
+    .videos-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+      padding: 24px;
+    }
+
+    .video-item {
+      position: relative;
+      background: #1a1a1a;
+      border-radius: 8px;
+      overflow: hidden;
+      cursor: pointer;
+      aspect-ratio: 16/9;
+      border: 1px solid rgba(255,77,77,0.2);
+      transition: all 0.3s ease;
+    }
+
+    .video-item:hover {
+      border-color: rgba(255,77,77,0.6);
+      transform: scale(1.03);
+      box-shadow: 0 8px 24px rgba(255,77,77,0.15);
+    }
+
+    .video-item-thumbnail {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #222, #111);
+      position: relative;
+    }
+
+    .video-item-play-icon {
+      width: 50px;
+      height: 50px;
+      background: rgba(255,77,77,0.8);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .video-item:hover .video-item-play-icon {
+      background: #ff4d4d;
+      transform: scale(1.15);
+    }
+
+    .video-item-play-icon::after {
+      content: '▶';
+      color: white;
+      font-size: 20px;
+      margin-left: 3px;
+    }
+
+    .video-item-name {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+      color: white;
+      padding: 12px 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(30px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .modal-video-container {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%;
+    }
+
+    .modal-video-container video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 40px;
+      height: 40px;
+      background: rgba(255,255,255,0.15);
+      border: none;
+      border-radius: 50%;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s;
+      z-index: 5;
+    }
+
+    .modal-close:hover {
+      background: rgba(255,77,77,0.7);
+      transform: scale(1.1);
+    }
+
+    @media (max-width: 768px) {
+      .modal-content {
+        width: 95%;
+        max-height: 80vh;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- ===== HEADER ===== -->
+  <header>
+    <nav class="navbar">
+      <div class="logo">
+        <em>RB</em>
+      </div>
+      <ul class="nav-links">
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="index.html#projects">Projets</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+
+      <!-- Bouton Burger -->
+      <div class="burger" id="burger">
+        ☰
+      </div>
+    </nav>
+  </header>
+
+  <!-- ===== HERO PROJECT SECTION ===== -->
+  <section class="hero-project">
+    <div class="hero-content">
+      <h1>Machines Cybersécurité</h1>
+      <p>Collecte de machines vulnérables pour l'entraînement en pentesting, exploitation et hardening...</p>
+    </div>
+  </section>
+
+  <!-- ===== PROJECTS DETAIL SECTION ===== -->
+  <section class="projects-detail">
+    <div class="projects-detail-container">
+      <h2>Projet cybersecurité & Machines Vulnérables</h2>
+      
+      <div class="filter-buttons">
+        <button class="filter-btn active" data-filter="all">Tous</button>
+        <button class="filter-btn" data-filter="linux">Linux</button>
+        <button class="filter-btn" data-filter="windows">Windows</button>
+        <button class="filter-btn" data-filter="mixte">Mixte</button>
+      </div>
+
+      <div class="projects-grid">
+
+
+          <!-- Active Directory Lab -->
+        <article class="project-detail-card animate-item" data-category="windows">
+          <div class="project-image-wrapper">
+            <img src="./image/active_directory2.png" alt="Active Directory Lab" loading="lazy">
+          </div>
+          <div class="project-detail-info">
+            <h3>🏢 Active Directory Lab - Infrastructure Bancaire</h3>
+            <p class="project-summary">Déploiement complet d'une infrastructure Windows en environnement d'entreprise bancaire. Gestion des utilisateurs, configuration de domaine et implémentation de politiques de sécurité centralisées via GPO.</p>
+            
+            <div class="project-details-meta">
+              
+              <div class="meta-section">
+                <h4><i class="fas fa-sitemap"></i> Infrastructure</h4>
+                <ul class="detailed-list">
+                  <li><strong>Serveur :</strong> Windows Server 2022 DC avec DNS, DHCP, Serveur de fichier</li>
+                  <li><strong>Clients :</strong> Windows 10/11 Pro (2-3 postes clients)</li>
+                  <li><strong>Domaine :</strong> Structure OU hiérarchisée par département (Finance, RH, Direction, Informatique)</li>
+                </ul>
+              </div>
+              
+              <div class="meta-section">
+                <h4><i class="fas fa-shield-alt"></i> Politiques de Groupe (GPO)</h4>
+                <ul class="detailed-list">
+                  <li>Wallpaper corporatif - Branding centralisé</li>
+                  <li>Verrouillage compte - 3 tentatives, lockout 30 min</li>
+                  <li>Pare-feu Windows - Blocage ports non essentiels</li>
+                  <li>Audit & Logs - Journalisation centralisée</li>
+                  <li>Blocage USB - Restriction périphériques externes</li>
+                  <li>Mot de passe - Complexité et expiration forcée</li>
+                  <li>Mappage de lecteur réeau</li>
+                  <li> installation logicielle restreint pour utilisateurs standard</li>
+                  <li>Blocage powershell,cmd,registre,gestionnaire des tâches..</li>
+                  <li>etc..</li>
+                </ul>
+              </div>
+              
+              <div class="meta-section">
+                <h4><i class="fas fa-tasks"></i> Compétences Démontrées</h4>
+                <ul class="detailed-list">
+                  <li>Déploiement et gestion Active Directory</li>
+                  <li>Création/implémentation de GPO</li>
+                  <li>Administration domaine Windows</li>
+                  <li>Sécurisation infrastructure réseau</li>
+                  <li>Hardening postes clients</li>
+                </ul>
+              </div>
+            </div>
+            
+            <div class="tech-stack">
+              <span class="tech-tag"><i class="fab fa-windows"></i> Windows Server 2022</span>
+              <span class="tech-tag"><i class="fas fa-users"></i> Active Directory</span>
+              <span class="tech-tag"><i class="fas fa-shield-alt"></i> GPO</span>
+              <span class="tech-tag"><i class="fas fa-lock"></i> Sécurité</span>
+            </div>
+            
+            <div class="project-actions">
+              <a href="https://github.com" target="_blank" class="btn"><i class="fas fa-book"></i> Documentation</a>
+              <p>Voir la démonstration complète sur <a  href="https://vm.tiktok.com/ZMHEbRJwnqaWu-TJuYc/" target="_blank" >TikTok</a>
+            </div>
+          </div>
+        </article>
+        
+        <!-- MrRobot -->
+        <article class="project-detail-card animate-item" data-category="linux">
+          <div class="project-image-wrapper">
+            <img src="./image/MrRobot.png" alt="MrRoot Machine" loading="lazy">
+          </div>
+          <div class="project-detail-info">
+            <h3>MrRobot</h3>
+            <p>Machine Linux axée sur l'escalade de privilèges et l'exploitation de services mal configurés. Excellent pour apprendre la post-exploitation et les techniques SUID.</p>
+            <div class="project-details-meta">
+              <div>
+                <strong>Caractéristiques :</strong>
+                <ul>
+                  <li>Escalade de privilèges Linux</li>
+                  <li>Exploitation SUID</li>
+                  <li>Services mal configurés</li>
+                  <li>Post-exploitation</li>
+                </ul>
+              </div>
+            </div>
+            <div class="tech-stack">
+              <span class="tech-tag"><i class="fab fa-linux"></i> Linux</span>
+              <span class="tech-tag"><i class="fas fa-arrow-up"></i> Privesc</span>
+              <span class="tech-tag"><i class="fas fa-chart-bar"></i> Intermédiaire</span>
+            </div>
+            <div class="project-actions">
+              <a href="https://github.com" target="_blank" class="btn">Voir Writeup</a>
+              <a href="#" class="btn btn-outline">Détails</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- SkydogCTF -->
+        <article class="project-detail-card animate-item" data-category="mixte">
+          <div class="project-image-wrapper">
+            <img src="./image/SkyDogCon_CTF.jpg" alt="SkydogCTF Machine" loading="lazy">
+          </div>
+          <div class="project-detail-info">
+            <h3>SkydogCTF</h3>
+            <p>Machine orientée CTF avec multiple challenges : exploitation web, cryptographie et exploitation binaire. Parfait pour chaîner plusieurs techniques d'exploitation.</p>
+            <div class="project-details-meta">
+              <div>
+                <strong>Domaines couverts :</strong>
+                <ul>
+                  <li>Exploitation web (LFI, RCE)</li>
+                  <li>Cryptographie</li>
+                  <li>Binary exploitation</li>
+                  <li>Chaining d'exploits</li>
+                </ul>
+              </div>
+            </div>
+            <div class="tech-stack">
+              <span class="tech-tag"><i class="fas fa-globe"></i> Web</span>
+              <span class="tech-tag"><i class="fas fa-microchip"></i> Binary</span>
+              <span class="tech-tag"><i class="fas fa-star"></i> Avancé</span>
+            </div>
+            <div class="project-actions">
+              <a href="https://github.com" target="_blank" class="btn">Voir Writeup</a>
+              <a href="#" class="btn btn-outline">Voir Notes</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- BasicPentesting -->
+        <article class="project-detail-card animate-item" data-category="linux">
+          <div class="project-image-wrapper">
+            <img src="./image/basicpentesting.png" alt="BasicPentesting Machine" loading="lazy">
+          </div>
+          <div class="project-detail-info">
+            <h3>BasicPentesting</h3>
+            <p>Machine d'initiation parfaite pour débuter en pentesting. Couvre l'énumération, l'exploitation simple et la rédaction de rapports de vulnérabilité.</p>
+            <div class="project-details-meta">
+              <div>
+                <strong>Apprentissages clés :</strong>
+                <ul>
+                  <li>Énumération réseau</li>
+                  <li>Exploitation basique</li>
+                  <li>Rapport de vulnérabilité</li>
+                  <li>Méthodologie pentesting</li>
+                </ul>
+              </div>
+            </div>
+            <div class="tech-stack">
+              <span class="tech-tag"><i class="fab fa-linux"></i> Linux</span>
+              <span class="tech-tag"><i class="fas fa-magnifying-glass"></i> Énumération</span>
+              <span class="tech-tag"><i class="fas fa-leaf"></i> Débutant</span>
+            </div>
+            <div class="project-actions">
+              <a href="https://github.com" target="_blank" class="btn">Voir Writeup</a>
+              <a href="#" class="btn btn-outline">Captures</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Metasploitable -->
+        <article class="project-detail-card animate-item" data-category="mixte">
+          <div class="project-image-wrapper">
+            <img src="./image/metasploitable.jpg" alt="Metasploitable Machine" loading="lazy">
+          </div>
+          <div class="project-detail-info">
+            <h3>Metasploitable</h3>
+            <p>Machine classique pour tester Metasploit et des outils d'exploitation. Inclut plusieurs services vulnérables pour la pratique en exploitation.</p>
+            <div class="project-details-meta">
+              <div>
+                <strong>Outils et Techniques :</strong>
+                <ul>
+                  <li>Framework Metasploit</li>
+                  <li>Exploitation multi-services</li>
+                  <li>Payload generation</li>
+                  <li>Développement d'exploits</li>
+                </ul>
+              </div>
+            </div>
+            <div class="tech-stack">
+              <span class="tech-tag"><i class="fas fa-virus"></i> Metasploit</span>
+              <span class="tech-tag"><i class="fas fa-bomb"></i> Exploitation</span>
+              <span class="tech-tag"><i class="fas fa-chart-bar"></i> Intermédiaire</span>
+            </div>
+            <div class="project-actions">
+              <a href="https://github.com" target="_blank" class="btn">Voir Writeup</a>
+              <a href="#" class="btn btn-outline">Notes</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Kioprix Level 1 -->
+        <article class="project-detail-card animate-item" data-category="linux">
+          <div class="project-image-wrapper">
+            <img src="./image/KIOPRIX.png" alt="Kioprix Level 1 Machine" loading="lazy">
+          </div>
+          <div class="project-detail-info">
+            <h3>Kioprix Level 1</h3>
+            <p>Challenge Web focalisé sur l'exploitation web et la montée en privilèges simple. Bonne introduction aux vulnérabilités web courantes.</p>
+            <div class="project-details-meta">
+              <div>
+                <strong>Vulnérabilités couvertes :</strong>
+                <ul>
+                  <li>LFI (Local File Inclusion)</li>
+                  <li>RCE (Remote Code Execution)</li>
+                  <li>Privesc simple</li>
+                  <li>Chaining basique</li>
+                </ul>
+              </div>
+            </div>
+            <div class="tech-stack">
+              <span class="tech-tag">Web</span>
+              <span class="tech-tag">LFI/RCE</span>
+              <span class="tech-tag">Débutant+</span>
+            </div>
+            <div class="project-actions">
+              <a href="https://github.com" target="_blank" class="btn">Voir Writeup</a>
+              <a href="#" class="btn btn-outline">Screenshots</a>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="footer-container">
+      <div class="footer-links">
+        <h3>Navigation</h3>
+        <ul>
+          <li><a href="#home"><i class="fa-solid fa-home" style="font-size: 1rem; color: #ff4d4d;"></i>Accueil</a></li>
+          <li><a href="index.html#projects"><i class="fa-solid fa-code" style="font-size: 1rem; color: #ff4d4d;"></i>Projets</a></li>
+          <li><a href="index.html#certifications"><i class="fa-solid fa-check" style="font-size: 1rem; color: #ff4d4d;"></i>Certifications</a></li>
+        </ul>
+      </div>
+      <div class="footer-socials">
+        <h3>Projets</h3>
+        <ul>
+          <li><a href="mobile.html">Applications Mobile</a></li>
+          <li><a href="web.html">Sites Web</a></li>
+          <li><a href="cyber.html">Cybersécurité</a></li>
+        </ul>
+      </div>
+      <div class="footer-socials">
+        <h3>Socials</h3>
+        <a href="https://github.com" target="_blank"><i class="fa-brands fa-github" style="font-size: 1rem; color: #ff4d4d;"></i>GitHub</a>
+        <a href="https://www.linkedin.com/in/rodrigue-balogou-73329a349?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank"><i class="fa-brands fa-linkedin" style="font-size: 1rem; color: #ff4d4d;"></i>LinkedIn</a>
+        <a href="https://twitter.com" target="_blank"><i class="fa-brands fa-x-twitter" style="font-size: 1rem; color: #ff4d4d;"></i>Twitter</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Rodrigue BALOGOU. <span style="border: 1px solid ;"></span>  Tous droits réservés.</p>
+    </div>
+  </footer>
+
+  <!-- ===== MODAL VIDÉO ===== -->
+  <div id="demo-modal" role="dialog" aria-hidden="true" aria-labelledby="modal-title">
+    <div class="modal-content">
+      <button class="modal-close" aria-label="Fermer la modale">✕</button>
+      
+      <!-- Onglets de la modale -->
+      <div class="modal-tabs">
+        <button class="modal-tab-btn active" data-tab="single-video">Démo du projet</button>
+        <button class="modal-tab-btn" data-tab="all-videos">Galerie vidéos</button>
+      </div>
+
+      <!-- Onglet 1: Vidéo unique du projet -->
+      <div class="modal-tab-content active" id="tab-single-video">
+        <div class="modal-video-container">
+          <video id="demo-video" controls style="width:100%; height:100%;"></video>
+        </div>
+      </div>
+
+      <!-- Onglet 2: Galerie de toutes les vidéos -->
+      <div class="modal-tab-content" id="tab-all-videos">
+        <div class="videos-gallery" id="videos-gallery">
+          <p style="text-align: center; color: #ccc; padding: 40px;">Chargement des vidéos...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+  <script>
+    // Filter functionality for cyber projects
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const projectCards = document.querySelectorAll('.project-detail-card');
+
+    filterButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        // Update active button
+        filterButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+
+        const filter = button.getAttribute('data-filter');
+
+        // Show/hide cards based on filter
+        projectCards.forEach(card => {
+          if (filter === 'all' || card.getAttribute('data-category') === filter) {
+            card.style.display = 'grid';
+            setTimeout(() => {
+              card.classList.add('show');
+            }, 100);
+          } else {
+            card.classList.remove('show');
+            setTimeout(() => {
+              card.style.display = 'none';
+            }, 50);
+          }
+        });
+      });
+    });
+
+    // ===== MODALE VIDÉO AVEC GALERIE =====
+    document.addEventListener('DOMContentLoaded', () => {
+      const modal = document.getElementById('demo-modal');
+      const video = document.getElementById('demo-video');
+      const closeBtn = document.querySelector('.modal-close');
+      const demoBtns = document.querySelectorAll('.demo-btn');
+      const modalTabs = document.querySelectorAll('.modal-tab-btn');
+      const modalTabContents = document.querySelectorAll('.modal-tab-content');
+      const videosGallery = document.getElementById('videos-gallery');
+
+      // Onglets de la modale
+      modalTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          const tabName = tab.getAttribute('data-tab');
+          
+          // Désactiver tous les onglets
+          modalTabs.forEach(t => t.classList.remove('active'));
+          modalTabContents.forEach(c => c.classList.remove('active'));
+          
+          // Activer l'onglet cliqué
+          tab.classList.add('active');
+          document.getElementById(`tab-${tabName}`).classList.add('active');
+        });
+      });
+
+      // Charger galerie vidéos (à partir du dossier /videos/)
+      async function loadVideosGallery() {
+        try {
+          // Essayer de charger les vidéos depuis le dossier /videos/
+          const videoFiles = [
+            'stage.mp4',
+            'Calculatrice.mp4',
+            'ActiveDirectory.mp4'
+          ];
+
+          let html = '';
+          
+          videoFiles.forEach(filename => {
+            const videoPath = `videos/${filename}`;
+            const videoName = filename.replace('.mp4', '').charAt(0).toUpperCase() + filename.replace('.mp4', '').slice(1);
+            
+            html += `
+              <div class="video-item" data-video="${videoPath}">
+                <div class="video-item-thumbnail">
+                  <div class="video-item-play-icon"></div>
+                </div>
+                <div class="video-item-name">${videoName}</div>
+              </div>
+            `;
+          });
+
+          videosGallery.innerHTML = html;
+
+          // Ajouter événement click sur chaque vidéo de la galerie
+          document.querySelectorAll('.video-item').forEach(item => {
+            item.addEventListener('click', () => {
+              const videoPath = item.getAttribute('data-video');
+              playVideoInGallery(videoPath);
+            });
+          });
+        } catch (error) {
+          console.error('Erreur lors du chargement des vidéos:', error);
+          videosGallery.innerHTML = '<p style="text-align: center; color: #ccc; padding: 40px;">Aucune vidéo disponible</p>';
+        }
+      }
+
+      // Jouer une vidéo depuis la galerie
+      function playVideoInGallery(videoPath) {
+        video.src = videoPath;
+        
+        // Revenir à l'onglet "Démo du projet"
+        modalTabs.forEach(t => t.classList.remove('active'));
+        modalTabContents.forEach(c => c.classList.remove('active'));
+        modalTabs[0].classList.add('active');
+        document.getElementById('tab-single-video').classList.add('active');
+        
+        video.play();
+      }
+
+      // Ouvrir modal au clic sur bouton démo
+      demoBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const videoPath = btn.getAttribute('data-video');
+          openModal(videoPath);
+        });
+      });
+
+      function openModal(videoPath) {
+        if (!videoPath) return;
+        video.src = videoPath;
+        modal.classList.add('active');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+        video.play();
+        
+        // Charger galerie au premier ouverture
+        if (videosGallery.querySelector('p')) {
+          loadVideosGallery();
+        }
+      }
+
+      function closeModal() {
+        modal.classList.remove('active');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+        video.pause();
+        video.src = '';
+      }
+
+      // Fermer modal
+      closeBtn.addEventListener('click', closeModal);
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+      });
+
+      // Fermer avec touche Escape
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+          closeModal();
+        }
+      });
+
+      // Pré-charger la galerie vidéos
+      loadVideosGallery();
+    });
+  </script>
+  <script src="./script.js"></script>
+</body>
+</html>
+

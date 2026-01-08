@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Projets Web professionnels de Rodrigue Balogou - Sites responsifs, applications web modernes et expérience utilisateur optimisée. HTML5, CSS3, JavaScript, PHP.">
+    <meta name="keywords" content="projets web, développement web, HTML5, CSS3, JavaScript, PHP, responsive design, Rodrigue Balogou">
+    <meta name="author" content="Rodrigue Balogou">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="Projets Web - Rodrigue Balogou">
+    <meta property="og:description" content="Découvrez mes réalisations web : sites responsifs et applications modernes">
+    <meta property="og:type" content="website">
+    <title>Projets Web Professionnels - Rodrigue Balogou | Portfolio</title>
+    <link rel="canonical" href="https://rodriguebalogou.fr/web.html">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+    <link rel="icon" href="./image/profil.png" type="image/png">
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-9D7K3L2M4N"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-9D7K3L2M4N');
+    </script>
+</head>
+<body>
+    <!-- ===== HEADER ===== -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <em>RB</em>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html#home">Accueil</a></li>
+                <li><a href="index.html#projects">Projets</a></li>
+                <li><a href="index.html#skills">Compétences</a></li>
+                <li class="nav-dropdown">
+                    <a href="#" class="dropdown-toggle">Autres ▼</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="index.html#certifications">Certifications</a></li>
+                        <li><a href="index.html#journey">Mon Parcours</a></li>
+                        <li><a href="index.html#contact">Contact</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="burger" id="burger">☰</div>
+        </nav>
+    </header>
+
+    <!-- ===== HERO SECTION ===== -->
+    <section class="hero-project">
+        <div class="hero-content">
+            <h1>Mes Projets Web</h1>
+            <p style="font-size: 20px;">Découvrez mes réalisations en développement web : applications responsives, dashboards interactifs et outils d'administration modernes.</p>
+        </div>
+    </section>
+
+    <!-- ===== PROJECTS SECTION ===== -->
+    <section class="projects-detail">
+        <div class="projects-detail-container">
+            <!-- <h2><span style="color: #FF4D4D;">Projets Web</span></h2> -->
+
+            <!-- Filtre -->
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">Tous</button>
+                <button class="filter-btn" data-filter="frontend">Frontend</button>
+                <button class="filter-btn" data-filter="backend">Backend</button>
+            </div>
+
+            <!-- Grille de projets -->
+            <div class="projects-grid">
+                <!-- Projet 1 -->
+                <article class="project-detail-card animate-item" data-category="frontend">
+                    <div class="project-image-wrapper">
+                        <img src="./image/car.png" alt="Portail de réservation de véhicules" loading="lazy">
+                    </div>
+                    <div class="project-detail-info">
+                        <h3>Plateforme de Réservation & Gestion de Véhicules</h3>
+                        <p>Plateforme responsive permettant la réservation en ligne, la location des vehicules et un panneau d'administration pour suivre les réservations et l'état des véhicules en temps réel.</p>
+                        
+                        <div class="project-details-meta">
+                            <div>
+                                <strong>Objectifs :</strong>
+                                <ul>
+                                    <li>Interface intuitive et responsive</li>
+                                    <li>Système de réservation complet</li>
+                                   
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="tech-stack">
+                            <span class="tech-tag"><i class="fab fa-html5"></i> HTML5</span>
+                            <span class="tech-tag"><i class="fab fa-css3-alt"></i> CSS3</span>
+                            <span class="tech-tag"><i class="fab fa-js"></i> JavaScript</span>
+                            <span class="tech-tag"><i class="fas fa-envelope"></i> Email-JS</span>
+                        </div>
+
+                        <div class="project-actions">
+                            <a href="https://location-car.vercel.app" target="_blank" class="btn"><i class="fa-solid fa-folder-open" style="font-size: 1em; color: #fff;"></i>  Voir le projet</a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Projet 2 -->
+                <article class="project-detail-card animate-item" data-category="frontend">
+                    <div class="project-image-wrapper">
+                        <img src="./image/delices.png" alt="Interface de réservation de repas" loading="lazy">
+                    </div>
+                    <div class="project-detail-info">
+                        <h3>Plateforme de Réservation de Repas</h3>
+                        <p>Tableau de bord interactif fournissant des statistiques en temps réel pour la gestion des commandes, avec visualisations avancées et gestion des livraisons.</p>
+                        
+                        <div class="project-details-meta">
+                            <div>
+                                <strong>Objectifs :</strong>
+                                <ul>
+                                    <li>Gestion des commandes en temps réel</li>
+                                    <li>Tableaux de bord statistiques</li>
+                                    <li>Optimisation des livraisons</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="tech-stack">
+                             <span class="tech-tag"><i class="fab fa-html5"></i> HTML5</span>
+                            <span class="tech-tag"><i class="fab fa-js"></i> JavaScript</span>
+                            <span class="tech-tag"><i class="fab fa-css3-alt"></i> CSS3</span>
+                            <span class="tech-tag"><i class="fas fa-envelope"></i> Email-JS</span>
+                        </div>
+
+                        <div class="project-actions">
+                            <a href="https://smgdelices.great-site.net" target="_blank" class="btn"><i class="fa-solid fa-folder-open" style="font-size: 1em; color: #fff;"></i> Voir le projet</a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Projet 3 -->
+                <article class="project-detail-card animate-item" data-category="backend">
+                    <div class="project-image-wrapper">
+                        <img src="./image/WEB1.png" alt="Portail de gestion de stages" loading="lazy">
+                    </div>
+                    <div class="project-detail-info">
+                        <h3>Site de Gestion de Stage</h3>
+                        <p>Outil d'administration complète pour centraliser la soumission et la validation des rapports de stage, avec gestion des comptes encadreurs et workflows automatisés.</p>
+                        
+                        <div class="project-details-meta">
+                            <div>
+                                <strong>Objectifs :</strong>
+                                <ul>
+                                    <li>Gestion centralisée des stages</li>
+                                    <li>Validation des rapports automatisée</li>
+                                    <li>Dashboard administrateur</li>
+                                </ul>
+                            </div>
+                            <div class="demo-credentials">
+                                <b>Attention : Uniquement version desktop</b><br><br>
+                                <strong>📧 Accès démo compte encadreur :</strong>
+                                <p>Email : <code>fifame@gmail.com</code></p>
+                                <p>Mot de passe : <code>12345</code></p>
+                            </div>
+                        </div>
+
+                        <div class="tech-stack">
+                            <span class="tech-tag"><i class="fab fa-php"></i> PHP</span>
+                            <span class="tech-tag"><i class="fas fa-leaf"></i> MySQL</span>
+                            <span class="tech-tag"><i class="fab fa-html5"></i> HTML5</span>
+                            <span class="tech-tag"><i class="fab fa-css3-alt"></i> CSS3</span>
+                            <span class="tech-tag"><i class="fab fa-js"></i> JavaScript</span>
+                        </div>
+
+                        <div class="project-actions">
+                            <a href="https://stagepro.wuaze.com" target="_blank" class="btn"><i class="fa-solid fa-folder-open" style="font-size: 1em; color: #fff;"></i> Voir le projet</a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Projet 4 -->
+                <article class="project-detail-card animate-item" data-category="frontend">
+                    <div class="project-image-wrapper">
+                        <img src="./image/jeu.png" alt="Interface de jeu interactif" loading="lazy">
+                    </div>
+                    <div class="project-detail-info">
+                        <h3>Jeu Interactif - Pig Pong</h3>
+                        <p>Jeu interactif avec des mécaniques engageantes, une interface épurée et des interactions fluides pour une expérience utilisateur optimale.</p>
+                        <div class="project-details-meta">
+                            <div>
+                                <strong>Objectifs :</strong>
+                                <ul>
+                                    <li>Gameplay engageant et fluide</li>
+                                    <li>Interface intuitives</li>
+                                    <li>Interactions dynamiques</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="tech-stack">
+                            <span class="tech-tag"><i class="fab fa-html5"></i> HTML5</span>
+                            <span class="tech-tag"><i class="fab fa-css3-alt"></i> CSS3</span>
+                            <span class="tech-tag"><i class="fab fa-js"></i> JavaScript</span>
+                        </div>
+
+                        <div class="project-actions">
+                            <a href="https://jeu-pig-pong.vercel.app" target="_blank" class="btn"><i class="fa-solid fa-folder-open" style="font-size: 1em; color: #fff;"></i> Voir le projet</a>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ===== MODAL GALERIE ===== -->
+    <div id="galleryModal" class="gallery-modal">
+        <span class="gallery-modal-close">&times;</span>
+        <div class="gallery-modal-content">
+            <img class="gallery-modal-image" src="" alt="">
+            <div class="gallery-modal-title"></div>
+            <div class="gallery-modal-nav">
+                <button class="gallery-prev">❮</button>
+                <button class="gallery-next">❯</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-logo">
+                <h2>MonPortfolio</h2>
+                <p>Développement Web | Cybersécurité | Mobile</p>
+            </div>
+
+            <div class="footer-links">
+                <h3>Navigation</h3>
+                <ul>
+                    <li><a href="index.html#home"><i class="fa-solid fa-home" style="font-size: 1rem; color: #ff4d4d;"></i>Accueil</a></li>
+                    <li><a href="index.html#projects"><i class="fa-solid fa-code" style="font-size: 1rem; color: #ff4d4d;"></i>Projets</a></li>
+                    <li><a href="index.html#skills"><i class="fa-solid fa-list-check" style="font-size: 1rem; color: #ff4d4d;"></i>Compétences</a></li>
+                    <li><a href="index.html#contact"><i class="fa-solid fa-phone" style="font-size: 1rem; color: #ff4d4d;"></i>Contact</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-socials">
+                <h3>Réseaux</h3>
+                <a href="https://linkedin.com" target="_blanc"><i class="fa-brands fa-linkedin" style="font-size: 1rem; color: #ff4d4d;"></i> LinkedIn</a><br>
+                <a href="https://github.com"><i class="fa-brands fa-github" style="font-size: 1rem; color: #ff4d4d;"></i> GitHub</a><br>
+                <a href="twitter.com"><i class="fa-brands fa-x-twitter" style="font-size: 1rem; color: #ff4d4d;"></i>Twitter</a><br>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2025 Rodrigue <span style="border: 1px solid ;"></span> Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <script src="./script.js"></script>
+    <script>
+        // Filter functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const projects = document.querySelectorAll('.project-detail-card');
+
+            filterButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const filter = btn.getAttribute('data-filter');
+                    
+                    filterButtons.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+
+                    projects.forEach(project => {
+                        if (filter === 'all' || project.getAttribute('data-category') === filter) {
+                            project.style.display = '';
+                        } else {
+                            project.style.display = 'none';
+                        }
+                    });
+                });
+            });
+
+            // Gallery Modal functionality
+            const modal = document.getElementById('galleryModal');
+            const modalImage = document.querySelector('.gallery-modal-image');
+            const modalTitle = document.querySelector('.gallery-modal-title');
+            const closeBtn = document.querySelector('.gallery-modal-close');
+            const prevBtn = document.querySelector('.gallery-prev');
+            const nextBtn = document.querySelector('.gallery-next');
+            const thumbnails = document.querySelectorAll('.gallery-thumbnail');
+            
+            let currentImageIndex = 0;
+            let allImages = [];
+
+            // Collect all gallery images
+            thumbnails.forEach((thumb, index) => {
+                allImages.push({
+                    src: thumb.getAttribute('data-modal-src'),
+                    title: thumb.getAttribute('data-title')
+                });
+            });
+
+            // Open modal
+            thumbnails.forEach((thumb, index) => {
+                thumb.addEventListener('click', () => {
+                    currentImageIndex = index;
+                    showImage(currentImageIndex);
+                    modal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                });
+            });
+
+            // Close modal
+            closeBtn.addEventListener('click', () => {
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+
+            // Navigation
+            prevBtn.addEventListener('click', () => {
+                currentImageIndex = (currentImageIndex - 1 + allImages.length) % allImages.length;
+                showImage(currentImageIndex);
+            });
+
+            nextBtn.addEventListener('click', () => {
+                currentImageIndex = (currentImageIndex + 1) % allImages.length;
+                showImage(currentImageIndex);
+            });
+
+            // Keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (modal.classList.contains('active')) {
+                    if (e.key === 'ArrowLeft') prevBtn.click();
+                    if (e.key === 'ArrowRight') nextBtn.click();
+                    if (e.key === 'Escape') {
+                        modal.classList.remove('active');
+                        document.body.style.overflow = 'auto';
+                    }
+                }
+            });
+
+            function showImage(index) {
+                const image = allImages[index];
+                modalImage.src = image.src;
+                modalTitle.textContent = image.title;
+                modalImage.animate(
+                    [{ opacity: 0.5, transform: 'scale(0.95)' }, { opacity: 1, transform: 'scale(1)' }],
+                    { duration: 300, easing: 'ease-out' }
+                );
+            }
+        });
+    </script>
+</body>
+</html>

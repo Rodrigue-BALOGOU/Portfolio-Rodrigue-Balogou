@@ -2125,6 +2125,8 @@ header {
   z-index: 1;
   border-radius: 16px;
   margin: 40px 20px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .contact h2 {
@@ -2509,8 +2511,40 @@ footer {
   font-weight: 500;
 }
 
-/* Responsive Footer */
+/* Responsive Contact & General */
+@media (max-width: 1024px) {
+  .contact {
+    padding: 60px 35px;
+    margin: 30px 15px;
+  }
+
+  .contact h2 {
+    font-size: 2em;
+    margin-bottom: 40px;
+  }
+
+  .contact-container {
+    gap: 30px;
+  }
+
+  .contact-form-wrapper,
+  .contact-info {
+    padding: 24px;
+  }
+}
+
 @media (max-width: 768px) {
+  .contact {
+    padding: 40px 20px;
+    margin: 20px 10px;
+    border-radius: 12px;
+  }
+
+  .contact h2 {
+    font-size: 1.6em;
+    margin-bottom: 30px;
+  }
+
   .contact-container {
     grid-template-columns: 1fr;
     gap: 20px;
@@ -2519,20 +2553,49 @@ footer {
   .contact-form-wrapper,
   .contact-info {
     padding: 20px;
+    border-radius: 16px;
   }
 
   .contact-form-wrapper h3,
   .contact-info h3 {
     font-size: 1.1rem;
+    margin-bottom: 15px;
+  }
+
+  .contact-form input,
+  .contact-form textarea {
+    padding: 10px 12px;
+    margin-bottom: 12px;
+    font-size: 14px;
+  }
+
+  .contact-form button {
+    padding: 10px 20px;
+    font-size: 0.95em;
   }
 
   .contact-info-item {
     padding: 10px 12px;
+    margin-bottom: 10px;
+  }
+
+  .contact-info-item p {
+    gap: 10px;
   }
 
   .contact-label {
-    min-width: 80px;
-    font-size: 0.9rem;
+    min-width: 70px;
+    font-size: 0.85rem;
+  }
+
+  .contact-btn {
+    padding: 10px 14px;
+    font-size: 0.9em;
+    gap: 6px;
+  }
+
+  .contact-icon {
+    font-size: 1.1em;
   }
 
   .testimonials-container {
@@ -2612,6 +2675,72 @@ footer {
 }
 
 @media (max-width: 480px) {
+  .contact {
+    padding: 25px 12px;
+    margin: 15px 5px;
+    border-radius: 10px;
+  }
+
+  .contact h2 {
+    font-size: 1.3em;
+    margin-bottom: 20px;
+  }
+
+  .contact-container {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .contact-form-wrapper,
+  .contact-info {
+    padding: 15px;
+    border-radius: 12px;
+  }
+
+  .contact-form-wrapper h3,
+  .contact-info h3 {
+    font-size: 1em;
+    margin-bottom: 12px;
+  }
+
+  .contact-form input,
+  .contact-form textarea {
+    padding: 8px 10px;
+    margin-bottom: 10px;
+    font-size: 13px;
+  }
+
+  .contact-form button {
+    padding: 8px 16px;
+    font-size: 0.85em;
+  }
+
+  .contact-info-item {
+    padding: 8px 10px;
+    margin-bottom: 8px;
+  }
+
+  .contact-info-item p {
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .contact-label {
+    min-width: 60px;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  .contact-btn {
+    padding: 8px 12px;
+    font-size: 0.8em;
+    gap: 4px;
+  }
+
+  .contact-icon {
+    font-size: 1em;
+  }
+
   .gpo-grid {
     grid-template-columns: 1fr;
   }

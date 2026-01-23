@@ -2021,6 +2021,7 @@ header {
   display: flex;
   align-items: center;
   justify-content: center;
+  min-height: 300px;
 }
 
 .project-image-wrapper img {
@@ -2844,11 +2845,36 @@ footer {
   .project-detail-card {
     grid-template-columns: 1fr;
     gap: 20px;
-    padding: 25px;
+    padding: 20px;
   }
   
   .project-detail-info h3 {
-    font-size: 1.4em;
+    font-size: 1.3em;
+    margin-bottom: 12px;
+  }
+
+  .project-detail-info p {
+    font-size: 0.95em;
+    margin-bottom: 15px;
+  }
+
+  .project-details-meta {
+    padding: 15px;
+    margin-bottom: 15px;
+  }
+
+  .project-details-meta li {
+    font-size: 0.9em;
+  }
+
+  .project-image-wrapper {
+    min-height: 250px;
+    max-height: 250px;
+    border-radius: 10px;
+  }
+
+  .project-image-wrapper img {
+    max-height: 250px;
   }
   
   .gpo-grid {
@@ -2869,13 +2895,39 @@ footer {
   }
   
   .meta-section {
-    padding: 15px;
-    margin-bottom: 15px;
+    padding: 12px;
+    margin-bottom: 12px;
   }
   
   .meta-section h4 {
-    font-size: 1.1em;
-    margin-bottom: 12px;
+    font-size: 1.05em;
+    margin-bottom: 10px;
+  }
+
+  .detailed-list li {
+    font-size: 0.9em;
+    padding: 6px 10px;
+    padding-left: 28px;
+  }
+
+  .tech-stack {
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .tech-tag {
+    font-size: 0.85em;
+    padding: 6px 12px;
+  }
+
+  .project-actions {
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .project-actions .btn {
+    padding: 8px 16px;
+    font-size: 0.9em;
   }
   
   .detailed-list li {
@@ -2956,8 +3008,72 @@ footer {
     grid-template-columns: 1fr;
   }
   
+  .project-detail-card {
+    grid-template-columns: 1fr;
+    gap: 15px;
+    padding: 15px;
+  }
+
   .project-detail-info h3 {
     font-size: 1.2em;
+    margin-bottom: 10px;
+  }
+
+  .project-detail-info p {
+    font-size: 0.9em;
+    margin-bottom: 12px;
+  }
+
+  .project-details-meta {
+    padding: 12px;
+    margin-bottom: 12px;
+    border-left: 3px solid #ff4d4d;
+  }
+
+  .meta-section {
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+
+  .meta-section h4 {
+    font-size: 0.95em;
+    margin-bottom: 8px;
+  }
+
+  .detailed-list li {
+    padding: 6px 10px;
+    padding-left: 24px;
+    font-size: 0.85em;
+  }
+
+  .project-image-wrapper {
+    min-height: 200px;
+    max-height: 200px;
+  }
+
+  .project-image-wrapper img {
+    max-height: 200px;
+  }
+
+  .tech-stack {
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .tech-tag {
+    font-size: 0.8em;
+    padding: 6px 10px;
+  }
+
+  .project-actions {
+    gap: 8px;
+    flex-direction: column;
+  }
+
+  .btn {
+    padding: 8px 14px;
+    font-size: 0.8em;
+    width: 100%;
   }
   
   .gpo-item i {

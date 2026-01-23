@@ -2189,6 +2189,17 @@ header {
   gap: 8px;
 }
 
+.btn-tiktok {
+  background: #000;
+  color: white;
+}
+
+.btn-tiktok:hover {
+  background: #222;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+}
+
 /* ===== SECTIONS DÉTAILS PROJET ===== */
 .meta-section {
   background: rgba(255,77,77,0.04);

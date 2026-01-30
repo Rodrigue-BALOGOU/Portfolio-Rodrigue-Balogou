@@ -5,7 +5,7 @@ Disallow: /assets/
 Disallow: *.pdf
 
 # Sitemap
-Sitemap: https://rodriguebalogou.fr/sitemap.xml
+Sitemap: https://portfolio-rodrigue-balogou.vercel.app/sitemap.xml
 
 # Google specific
 User-agent: Googlebot

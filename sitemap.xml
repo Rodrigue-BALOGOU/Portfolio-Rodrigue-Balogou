@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://rodriguebalogou.fr/</loc>
+    <loc>https://portfolio-rodrigue-balogou.vercel.app/</loc>
     <lastmod>2025-01-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://rodriguebalogou.fr/index.html</loc>
+    <loc>https://portfolio-rodrigue-balogou.vercel.app/index.html</loc>
     <lastmod>2025-01-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://rodriguebalogou.fr/web.html</loc>
+    <loc>https://portfolio-rodrigue-balogou.vercel.app/web.html</loc>
     <lastmod>2025-01-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://rodriguebalogou.fr/mobile.html</loc>
+    <loc>https://portfolio-rodrigue-balogou.vercel.app/mobile.html</loc>
     <lastmod>2025-01-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://rodriguebalogou.fr/cyber.html</loc>
+    <loc>https://portfolio-rodrigue-balogou.vercel.app/cyber.html</loc>
     <lastmod>2025-01-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://rodriguebalogou.fr/CV_Rodrigue_BALOGOU.pdf</loc>
+    <loc>https://portfolio-rodrigue-balogou.vercel.app/CV_Rodrigue_BALOGOU.pdf</loc>
     <lastmod>2025-01-28</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>

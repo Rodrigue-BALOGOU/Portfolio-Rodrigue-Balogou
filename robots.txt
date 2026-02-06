@@ -1,23 +1,15 @@
-# Robots.txt pour Rodrigue Balogou Portfolio
+# Robots.txt – Portfolio Rodrigue Balogou
 User-agent: *
 Allow: /
-Disallow: /assets/
-Disallow: *.pdf
+
+# Autoriser les ressources importantes
+Allow: /assets/
+Allow: /image/
 
 # Sitemap
 Sitemap: https://portfolio-rodrigue-balogou.vercel.app/sitemap.xml
 
-# Google specific
-User-agent: Googlebot
-Allow: /
-Crawl-delay: 1
-
-# Bing specific
-User-agent: Bingbot
-Allow: /
-Crawl-delay: 2
-
-# Bad bots
+# Bloquer uniquement les bots agressifs
 User-agent: AhrefsBot
 Disallow: /
 

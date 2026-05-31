@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- SEO -->
+  <title>Projet 01 — Active Directory & GPO | Rodrigue Balogou</title>
+  <meta name="description" content="Déploiement d'un Active Directory sur Windows Server 2022 avec stratégies GPO de sécurité, gestion des utilisateurs NTFS et serveur de fichiers centralisé — Home lab cybersécurité." />
+  <meta name="keywords" content="Active Directory, Windows Server 2022, GPO, sécurité réseau, NTFS, domaine AD, contrôleur de domaine, PowerShell, home lab, Rodrigue Balogou" />
+  <meta name="author" content="Rodrigue Balogou" />
+  <meta name="robots" content="index, follow" />
+
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Projet 01 — Active Directory & GPO | Rodrigue Balogou" />
+  <meta property="og:description" content="Déploiement d'un domaine AD complet sur Windows Server avec stratégies GPO, gestion des identités et serveur de fichiers sécurisé." />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            accent: '#ff4d4d', 'accent-dim': '#cc3d3d',
+            bg: '#0f172a', 'bg-deep': '#020617',
+            surface: '#111827', 'surface-2': '#1e293b',
+            border: '#1e293b', muted: '#64748b',
+          },
+          fontFamily: {
+            mono: ['"Space Mono"', 'monospace'],
+            sans: ['"DM Sans"', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+  <style>
+    .proj-hero-img { width:100%; height:100%; object-fit:cover; opacity:0.35; }
+    .proj-hero-overlay {
+      position:absolute; inset:0;
+      background:linear-gradient(to top,#0f172a 0%,rgba(15,23,42,0.85) 35%,rgba(15,23,42,0.4) 70%,rgba(15,23,42,0.2) 100%);
+    }
+    .proj-nav-link { position:relative; transition:color 0.2s ease; }
+    .proj-nav-link.active { color:#f8fafc; }
+    .proj-nav-link.active::after { content:''; display:block; height:2px; background:#ff4d4d; border-radius:999px; margin-top:2px; }
+
+    .arch-diagram { display:flex; flex-direction:column; align-items:center; gap:0; }
+    .arch-node {
+      display:flex; align-items:center; justify-content:center; flex-direction:column;
+      gap:0.4rem; padding:0.875rem 1.25rem;
+      background:rgba(15,23,42,0.8); border:1px solid #1e293b;
+      border-radius:0.875rem; min-width:160px; text-align:center;
+      transition:border-color 0.2s ease;
+    }
+    .arch-node:hover { border-color:rgba(255,77,77,0.3); }
+    .arch-node--dc { border-color:rgba(255,77,77,0.25); background:rgba(255,77,77,0.04); }
+    .arch-connector { width:1px; height:2rem; background:linear-gradient(to bottom,#1e293b,rgba(30,41,59,0.2)); flex-shrink:0; }
+    .arch-h-row { display:flex; align-items:center; gap:0; justify-content:center; }
+    .arch-h-line { height:1px; width:3rem; background:#1e293b; }
+    .arch-h-line--long { width:5rem; }
+
+    .impl-block-v2 { border:1px solid #1e293b; border-radius:1rem; background:rgba(17,24,39,0.6); overflow:hidden; }
+    .impl-block-v2-header {
+      display:flex; align-items:center; gap:0.75rem;
+      padding:0.875rem 1.25rem; border-bottom:1px solid #1e293b;
+      background:rgba(15,23,42,0.5);
+    }
+    .impl-block-v2-icon {
+      width:2rem; height:2rem; border-radius:0.5rem;
+      background:rgba(255,77,77,0.1); border:1px solid rgba(255,77,77,0.2);
+      display:flex; align-items:center; justify-content:center; flex-shrink:0;
+    }
+    .impl-block-v2-body { padding:1rem 1.25rem; display:flex; flex-direction:column; gap:0.5rem; }
+    .impl-item-v2 {
+      display:flex; align-items:flex-start; gap:0.625rem;
+      font-size:0.8125rem; color:#64748b; line-height:1.55; padding:0.25rem 0;
+      border-bottom:1px solid rgba(30,41,59,0.4);
+    }
+    .impl-item-v2:last-child { border-bottom:none; }
+    .impl-item-v2::before { content:'—'; color:rgba(255,77,77,0.4); flex-shrink:0; margin-top:1px; }
+
+    .gallery-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; }
+    @media (max-width:640px) { .gallery-grid { grid-template-columns:1fr; } }
+
+    .gallery-card {
+      border:1px solid #1e293b; border-radius:1rem;
+      background:rgba(17,24,39,0.7); overflow:hidden;
+      cursor:pointer; transition:border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+      display:flex; flex-direction:column;
+    }
+    .gallery-card:hover { border-color:rgba(255,77,77,0.3); transform:translateY(-3px); box-shadow:0 12px 30px rgba(0,0,0,0.4); }
+    .gallery-card__thumb { position:relative; height:120px; overflow:hidden; background:#0f172a; }
+    .gallery-card__thumb img { width:100%; height:100%; object-fit:cover; opacity:0.55; transition:opacity 0.3s ease, transform 0.4s ease; }
+    .gallery-card:hover .gallery-card__thumb img { opacity:0.72; transform:scale(1.05); }
+    .gallery-card__overlay {
+      position:absolute; inset:0;
+      background:linear-gradient(to top,rgba(17,24,39,0.9) 0%,transparent 60%);
+      display:flex; align-items:flex-end; padding:0.625rem;
+    }
+    .gallery-card__badge {
+      font-family:'Space Mono',monospace; font-size:0.6rem;
+      letter-spacing:0.1em; text-transform:uppercase;
+      color:#ff4d4d; background:rgba(2,6,23,0.82);
+      border:1px solid rgba(255,77,77,0.2); padding:0.2rem 0.5rem; border-radius:999px;
+    }
+    .gallery-card__body { padding:0.875rem 1rem; flex:1; display:flex; flex-direction:column; gap:0.3rem; }
+    .gallery-card__title { font-size:0.82rem; font-weight:600; color:#f1f5f9; }
+    .gallery-card__desc  { font-size:0.72rem; color:#64748b; line-height:1.5; }
+    .gallery-card__cta { display:flex; align-items:center; gap:0.35rem; font-size:0.68rem; color:#ff4d4d; font-weight:600; margin-top:auto; padding-top:0.5rem; }
+
+    .limit-card {
+      display:flex; align-items:flex-start; gap:0.75rem;
+      background:rgba(234,179,8,0.04); border:1px solid rgba(234,179,8,0.15);
+      border-radius:0.75rem; padding:0.875rem 1rem;
+    }
+    .limit-card__icon { color:rgba(234,179,8,0.7); flex-shrink:0; margin-top:2px; }
+
+    .evo-item-v2 {
+      display:flex; align-items:center; gap:0.75rem;
+      font-size:0.8125rem; color:#94a3b8; padding:0.5rem 0;
+      border-bottom:1px solid rgba(30,41,59,0.4);
+    }
+    .evo-item-v2:last-child { border-bottom:none; }
+    .evo-dot { width:6px; height:6px; border-radius:50%; background:#ff4d4d; flex-shrink:0; box-shadow:0 0 6px rgba(255,77,77,0.5); }
+
+    .proj-progress-nav { display:flex; align-items:center; gap:0.5rem; }
+    .proj-progress-step { display:flex; align-items:center; gap:0.4rem; font-family:'Space Mono',monospace; font-size:0.65rem; color:#334155; white-space:nowrap; }
+    .proj-progress-step.current { color:#ff4d4d; }
+    .proj-progress-step.done    { color:#475569; }
+    .proj-progress-line { flex:1; height:1px; background:#1e293b; min-width:1.5rem; }
+    .proj-progress-line.done { background:rgba(255,77,77,0.4); }
+
+    @media (max-width:767px) {
+      #navbar .max-w-6xl { padding-left:1rem; padding-right:1rem; }
+      #navbar a.font-mono { font-size:0.7rem; }
+      .proj-hero-inner { padding:0 1rem 1.5rem !important; }
+      .proj-hero-inner h1 { font-size:1.25rem !important; line-height:1.35; }
+      .proj-hero-inner p { font-size:0.78rem !important; margin-top:0.5rem; }
+      main.proj-main { padding-left:1rem !important; padding-right:1rem !important; padding-top:1.5rem !important; }
+      .arch-h-row { display:none !important; }
+      .arch-clients-row { flex-direction:column !important; align-items:center; gap:0.75rem; }
+      aside .sticky { position:static !important; top:auto !important; }
+      .gallery-card__thumb { height:130px; }
+    }
+    body.light .proj-hero-overlay { background:linear-gradient(to top,rgba(248,250,252,0.98) 0%,rgba(248,250,252,0.88) 38%,rgba(248,250,252,0.3) 72%,transparent 100%) !important; }
+    body.light .proj-hero-inner h1 { color:#0f172a !important; }
+    body.light .proj-hero-inner p  { color:#475569 !important; }
+    body.light .proj-nav-link { color:#64748b !important; }
+    body.light .proj-nav-link:hover { color:#0f172a !important; background:rgba(226,232,240,0.65) !important; }
+    body.light .impl-block-v2 { background:rgba(248,250,252,0.95) !important; border-color:rgba(226,232,240,0.9) !important; }
+    body.light .impl-block-v2-header { background:rgba(241,245,249,0.95) !important; border-color:rgba(226,232,240,0.9) !important; }
+    body.light .impl-item-v2 { color:#475569 !important; border-color:rgba(226,232,240,0.6) !important; }
+    body.light .gallery-card { background:rgba(255,255,255,0.95) !important; border-color:rgba(226,232,240,0.9) !important; }
+    body.light .gallery-card__title { color:#0f172a !important; }
+    body.light .gallery-card__desc  { color:#64748b !important; }
+    body.light .limit-card { background:rgba(234,179,8,0.03) !important; }
+    body.light .evo-item-v2 { color:#475569 !important; border-color:rgba(226,232,240,0.65) !important; }
+  </style>
+</head>
+<body class="font-sans antialiased">
+
+  <!-- NAVBAR -->
+  <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" role="navigation" aria-label="Navigation principale">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+      <a href="index.html" class="font-mono text-sm font-bold tracking-tight text-white" aria-label="Retour à l'accueil">Rodrigue Balogou</a>
+      <ul class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-400">
+        <li><a href="index.html#accueil"     class="nav-link hover:text-white transition-colors">Accueil</a></li>
+        <li><a href="index.html#apropos"     class="nav-link hover:text-white transition-colors">À propos</a></li>
+        <li><a href="index.html#projets"     class="nav-link hover:text-white transition-colors">Projets</a></li>
+        <li><a href="index.html#competences" class="nav-link hover:text-white transition-colors">Compétences</a></li>
+        <li><a href="index.html#outils"      class="nav-link hover:text-white transition-colors">Outils</a></li>
+        <li><a href="index.html#activite"    class="nav-link hover:text-white transition-colors">Parcours</a></li>
+      </ul>
+      <div class="flex items-center gap-3">
+        <button id="theme-toggle" class="theme-toggle text-slate-400 hover:text-white" aria-label="Basculer le thème">
+          <i id="theme-icon" class="fa-solid fa-moon text-lg"></i>
+        </button>
+        <button id="menu-btn" class="md:hidden text-slate-400 hover:text-white" aria-label="Ouvrir le menu">
+          <i class="fa-solid fa-bars text-lg"></i>
+        </button>
+      </div>
+    </div>
+    <div id="mobile-menu" class="hidden md:hidden border-t border-border bg-bg/95 backdrop-blur-md">
+      <ul class="flex flex-col px-6 py-4 gap-4 text-sm font-medium text-slate-400">
+        <li><a href="index.html#accueil" class="mobile-link hover:text-white">Accueil</a></li>
+        <li><a href="index.html#projets" class="mobile-link hover:text-white">Projets</a></li>
+        <li><a href="index.html#competences" class="mobile-link hover:text-white">Compétences</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="pt-20">
+    <div class="relative h-72 md:h-96 overflow-hidden">
+      <img src="./images/hero2.png"
+        alt="Salle serveur représentant un environnement Active Directory Windows Server"
+        class="proj-hero-img" />
+      <div class="proj-hero-overlay" aria-hidden="true"></div>
+
+      <div class="proj-hero-inner absolute inset-0 flex flex-col justify-end px-6 pb-10 max-w-5xl mx-auto" style="left:50%;transform:translateX(-50%);width:100%;">
+        <nav class="proj-progress-nav mb-5" aria-label="Progression des projets">
+          <span class="proj-progress-step current" aria-current="step">
+            <span class="w-4 h-4 rounded-full border-2 border-accent flex items-center justify-center text-accent" style="font-size:0.5rem;" aria-hidden="true">1</span>
+            Projet 01
+          </span>
+          <div class="proj-progress-line done" aria-hidden="true"></div>
+          <span class="proj-progress-step">
+            <span class="w-4 h-4 rounded-full border border-border flex items-center justify-center" style="font-size:0.5rem;" aria-hidden="true">2</span>
+            pfSense
+          </span>
+          <div class="proj-progress-line" aria-hidden="true"></div>
+          <span class="proj-progress-step">
+            <span class="w-4 h-4 rounded-full border border-border flex items-center justify-center" style="font-size:0.5rem;" aria-hidden="true">3</span>
+            AD complet
+          </span>
+        </nav>
+
+        <div class="flex flex-wrap items-center gap-2 mb-4">
+          <span class="text-xs font-mono px-2.5 py-1 rounded-full bg-accent/10 border border-accent/20 text-accent">Projet 01</span>
+          <span class="text-xs font-mono px-2.5 py-1 rounded-full bg-surface-2/80 text-muted border border-border">Active Directory</span>
+          <span class="text-xs font-mono px-2.5 py-1 rounded-full bg-surface-2/80 text-muted border border-border">Lab personnel</span>
+          <span class="text-xs font-mono px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Terminé</span>
+        </div>
+
+        <h1 class="text-2xl md:text-3xl lg:text-4xl font-bold text-white leading-tight max-w-2xl">
+          Active Directory & premières stratégies de sécurité
+        </h1>
+        <p class="text-slate-400 text-sm mt-3 max-w-xl leading-relaxed">
+          Déploiement d'un domaine Windows Server, gestion des identités et mise en place des premières GPO de sécurité — point de départ du lab.
+        </p>
+      </div>
+    </div>
+  </header>
+
+  <!-- CONTENU -->
+  <main class="proj-main max-w-5xl mx-auto px-6 py-12">
+
+    <nav class="flex gap-1 mb-12 border-b border-border pb-5 overflow-x-auto" aria-label="Sections du projet">
+      <a href="#contexte"        class="proj-nav-link text-xs font-mono text-muted hover:text-white transition-colors whitespace-nowrap px-3 py-1.5 rounded-lg hover:bg-surface-2">Contexte</a>
+      <a href="#architecture"    class="proj-nav-link text-xs font-mono text-muted hover:text-white transition-colors whitespace-nowrap px-3 py-1.5 rounded-lg hover:bg-surface-2">Architecture</a>
+      <a href="#galerie"         class="proj-nav-link text-xs font-mono text-muted hover:text-white transition-colors whitespace-nowrap px-3 py-1.5 rounded-lg hover:bg-surface-2">Galerie</a>
+      <a href="#implementations" class="proj-nav-link text-xs font-mono text-muted hover:text-white transition-colors whitespace-nowrap px-3 py-1.5 rounded-lg hover:bg-surface-2">Implémentations</a>
+      <a href="#limites"         class="proj-nav-link text-xs font-mono text-muted hover:text-white transition-colors whitespace-nowrap px-3 py-1.5 rounded-lg hover:bg-surface-2">Limites & Évolution</a>
+    </nav>
+
+    <div class="grid md:grid-cols-3 gap-10">
+
+      <!-- Colonne principale -->
+      <div class="md:col-span-2 flex flex-col gap-14">
+
+        <!-- Contexte -->
+        <section id="contexte" aria-labelledby="contexte-title">
+          <p class="text-accent font-mono text-xs tracking-widest mb-4">00 — CONTEXTE</p>
+          <p class="text-slate-400 text-sm leading-relaxed mb-6">
+            Dans le cadre d'un projet personnel, j'ai initié la mise en place d'un environnement Active Directory pour comprendre son rôle dans la gestion et la sécurisation des systèmes en entreprise. Ce premier lab m'a permis de poser les bases de l'administration Windows centralisée.
+          </p>
+          <div class="grid sm:grid-cols-2 gap-3" role="list" aria-label="Objectifs du projet">
+            <div class="flex items-start gap-3 p-4 rounded-xl border border-border bg-surface/60" role="listitem">
+              <i class="fa-solid fa-check text-accent text-xs mt-0.5 w-4 flex-shrink-0" aria-hidden="true"></i>
+              <span class="text-slate-300 text-sm">Déployer un domaine Active Directory fonctionnel</span>
+            </div>
+            <div class="flex items-start gap-3 p-4 rounded-xl border border-border bg-surface/60" role="listitem">
+              <i class="fa-solid fa-check text-accent text-xs mt-0.5 w-4 flex-shrink-0" aria-hidden="true"></i>
+              <span class="text-slate-300 text-sm">Gérer des utilisateurs et des accès centralisés</span>
+            </div>
+            <div class="flex items-start gap-3 p-4 rounded-xl border border-border bg-surface/60" role="listitem">
+              <i class="fa-solid fa-check text-accent text-xs mt-0.5 w-4 flex-shrink-0" aria-hidden="true"></i>
+              <span class="text-slate-300 text-sm">Mettre en place des GPO de sécurité</span>
+            </div>
+            <div class="flex items-start gap-3 p-4 rounded-xl border border-border bg-surface/60" role="listitem">
+              <i class="fa-solid fa-check text-accent text-xs mt-0.5 w-4 flex-shrink-0" aria-hidden="true"></i>
+              <span class="text-slate-300 text-sm">Gestion centralisée des ressources partagées</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Architecture -->
+        <section id="architecture" aria-labelledby="architecture-title">
+          <p class="text-accent font-mono text-xs tracking-widest mb-6">01 — ARCHITECTURE</p>
+          <div class="rounded-2xl border border-border bg-surface/60 p-8">
+            <div class="flex flex-col items-center mb-0">
+              <div class="arch-node arch-node--dc w-full max-w-xs">
+                <div class="flex items-center gap-2">
+                  <i class="fa-brands fa-windows text-accent text-lg" aria-hidden="true"></i>
+                  <div class="text-left">
+                    <p class="text-white text-sm font-semibold">Contrôleur de domaine</p>
+                    <p class="text-muted text-xs font-mono">Windows Server — BANQUE.local</p>
+                  </div>
+                </div>
+                <div class="w-full mt-2 pt-2 border-t border-border flex flex-wrap gap-1.5 justify-center">
+                  <span class="tag">AD DS</span><span class="tag">DNS</span><span class="tag">GPO</span><span class="tag">Fichiers</span>
+                </div>
+              </div>
+              <div class="arch-connector" aria-hidden="true"></div>
+            </div>
+            <div class="arch-h-row flex items-center justify-center gap-0 mb-0" aria-hidden="true">
+              <div class="arch-h-line arch-h-line--long"></div>
+              <div class="w-2 h-2 rounded-full bg-border flex-shrink-0"></div>
+              <div class="arch-h-line arch-h-line--long"></div>
+            </div>
+            <div class="arch-clients-row flex justify-center gap-8 mt-0">
+              <div class="arch-client-col flex flex-col items-center gap-0">
+                <div class="arch-connector" style="height:1.5rem;" aria-hidden="true"></div>
+                <div class="arch-node">
+                  <i class="fa-brands fa-windows text-slate-400 text-sm" aria-hidden="true"></i>
+                  <div><p class="text-slate-300 text-xs font-semibold">Poste client 01</p><p class="text-muted text-xs">Windows 10 Pro</p></div>
+                </div>
+              </div>
+              <div class="arch-client-col flex flex-col items-center gap-0">
+                <div class="arch-connector" style="height:1.5rem;" aria-hidden="true"></div>
+                <div class="arch-node">
+                  <i class="fa-brands fa-windows text-slate-400 text-sm" aria-hidden="true"></i>
+                  <div><p class="text-slate-300 text-xs font-semibold">Poste client 02</p><p class="text-muted text-xs">Windows 11 Pro</p></div>
+                </div>
+              </div>
+            </div>
+            <p class="text-slate-600 text-xs text-center mt-6 font-mono">Pas de segmentation réseau — focus sur les fondamentaux AD</p>
+          </div>
+        </section>
+
+        <!-- Galerie -->
+        <section id="galerie" aria-labelledby="galerie-title">
+          <p class="text-accent font-mono text-xs tracking-widest mb-2">02 — GALERIE</p>
+          <p class="text-slate-500 text-sm mb-6">Cliquez sur une vignette pour ouvrir la galerie complète.</p>
+          <div class="gallery-grid">
+            <div class="gallery-card btn-screenshots" role="button" tabindex="0" aria-label="Voir la galerie Structure AD"
+              data-images='[{"src":"./images/active-directory.jpg","title":"Topologie Active Directory","desc":"Schéma du contrôleur de domaine Windows Server connecté aux postes clients."},{"src":"./images/adstructure.png","title":"Vue générale du lab","desc":"Infrastructure Active Directory complète avec domaine BANQUE.local."}]'>
+              <div class="gallery-card__thumb">
+                <img src="./images/active-directory.jpg" alt="Schéma de topologie Active Directory" loading="lazy" />
+                <div class="gallery-card__overlay" aria-hidden="true"><span class="gallery-card__badge">Topologie</span></div>
+              </div>
+              <div class="gallery-card__body">
+                <p class="gallery-card__title">Structure AD</p>
+                <p class="gallery-card__desc">DC + 2 postes clients intégrés au domaine.</p>
+                <div class="gallery-card__cta"><i class="fa-solid fa-expand text-xs" aria-hidden="true"></i> Voir en grand</div>
+              </div>
+            </div>
+            <div class="gallery-card btn-screenshots" role="button" tabindex="0" aria-label="Voir la galerie GPO de sécurité"
+              data-images='[{"src":"./images/console-gpo.png","title":"Gestion des GPO","desc":"Règles de stratégie de groupe : mot de passe, verrouillage, restrictions utilisateur."},{"src":"./images/mauvaise-connexion.png","title":"Politique de sécurité","desc":"Détail des politiques de sécurité appliquées via Group Policy Management Console."}]'>
+              <div class="gallery-card__thumb">
+                <img src="./images/console-gpo.png" alt="Console de gestion des stratégies de groupe GPO" loading="lazy" />
+                <div class="gallery-card__overlay" aria-hidden="true"><span class="gallery-card__badge">Sécurité</span></div>
+              </div>
+              <div class="gallery-card__body">
+                <p class="gallery-card__title">GPO de sécurité</p>
+                <p class="gallery-card__desc">Politiques de mot de passe et restrictions système.</p>
+                <div class="gallery-card__cta"><i class="fa-solid fa-expand text-xs" aria-hidden="true"></i> Voir en grand</div>
+              </div>
+            </div>
+            <div class="gallery-card btn-screenshots" role="button" tabindex="0" aria-label="Voir la galerie Serveur de fichiers"
+              data-images='[{"src":"./images/filserver.png","title":"Serveur de fichiers","desc":"Partage réseau configuré avec permissions NTFS et déploiement automatique via GPO."},{"src":"./images/gestionacces.png","title":"Gestion des accès","desc":"Attribution des droits selon les rôles via groupes de sécurité et Domain Local Groups."}]'>
+              <div class="gallery-card__thumb">
+                <img src="./images/filserver.png" alt="Configuration du serveur de fichiers avec permissions NTFS" loading="lazy" />
+                <div class="gallery-card__overlay" aria-hidden="true"><span class="gallery-card__badge">Partage</span></div>
+              </div>
+              <div class="gallery-card__body">
+                <p class="gallery-card__title">Serveur de fichiers</p>
+                <p class="gallery-card__desc">Partage réseau, droits NTFS et lecteurs auto.</p>
+                <div class="gallery-card__cta"><i class="fa-solid fa-expand text-xs" aria-hidden="true"></i> Voir en grand</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Implémentations -->
+        <section id="implementations" aria-labelledby="implementations-title">
+          <p class="text-accent font-mono text-xs tracking-widest mb-6">03 — IMPLÉMENTATIONS</p>
+          <div class="flex flex-col gap-4">
+
+            <div class="impl-block-v2">
+              <div class="impl-block-v2-header">
+                <div class="impl-block-v2-icon" aria-hidden="true"><i class="fa-solid fa-sitemap text-accent text-sm"></i></div>
+                <div>
+                  <p class="text-white text-sm font-semibold">Active Directory</p>
+                  <p class="text-muted text-xs">Déploiement & gestion des identités</p>
+                </div>
+              </div>
+              <div class="impl-block-v2-body">
+                <div class="impl-item-v2">Création du domaine <span class="font-mono text-accent/70 ml-1">BANQUE.local</span></div>
+                <div class="impl-item-v2">Gestion des utilisateurs et groupes de sécurité</div>
+                <div class="impl-item-v2">GPO de sécurité et de contrôle des postes</div>
+              </div>
+            </div>
+
+            <div class="impl-block-v2">
+              <div class="impl-block-v2-header">
+                <div class="impl-block-v2-icon" aria-hidden="true"><i class="fa-solid fa-shield-halved text-accent text-sm"></i></div>
+                <div>
+                  <p class="text-white text-sm font-semibold">GPO de sécurité</p>
+                  <p class="text-muted text-xs">Stratégies de groupe appliquées</p>
+                </div>
+              </div>
+              <div class="impl-block-v2-body">
+                <div class="impl-item-v2">Politique de mot de passe — 8 caractères minimum, complexité activée</div>
+                <div class="impl-item-v2">Verrouillage de compte après 5 tentatives échouées</div>
+                <div class="impl-item-v2">Restrictions : PowerShell, Panneau de configuration, registre, stockage amovible (USB)</div>
+                <div class="impl-item-v2">Personnalisation et verrouillage de l'environnement utilisateur</div>
+              </div>
+            </div>
+
+            <div class="impl-block-v2">
+              <div class="impl-block-v2-header">
+                <div class="impl-block-v2-icon" aria-hidden="true"><i class="fa-solid fa-folder-open text-accent text-sm"></i></div>
+                <div>
+                  <p class="text-white text-sm font-semibold">Serveur de fichiers</p>
+                  <p class="text-muted text-xs">Partage réseau centralisé</p>
+                </div>
+              </div>
+              <div class="impl-block-v2-body">
+                <div class="impl-item-v2">Mise en place d'un partage réseau sécurisé</div>
+                <div class="impl-item-v2">Organisation des accès via Domain Local Groups (AGDLP)</div>
+                <div class="impl-item-v2">Attribution des droits NTFS selon les rôles utilisateur</div>
+                <div class="impl-item-v2">Déploiement automatique des lecteurs réseau via GPO</div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- Limites & Évolution -->
+        <section id="limites" aria-labelledby="limites-title">
+          <p class="text-accent font-mono text-xs tracking-widest mb-6">04 — LIMITES & ÉVOLUTION</p>
+          <div class="flex flex-col gap-3 mb-8" role="list" aria-label="Limites identifiées">
+            <div class="limit-card" role="listitem">
+              <i class="fa-solid fa-triangle-exclamation limit-card__icon text-xs" aria-hidden="true"></i>
+              <span class="text-slate-400 text-sm">Absence de segmentation réseau — tout sur le même VLAN</span>
+            </div>
+            <div class="limit-card" role="listitem">
+              <i class="fa-solid fa-triangle-exclamation limit-card__icon text-xs" aria-hidden="true"></i>
+              <span class="text-slate-400 text-sm">Aucun mécanisme de sécurité réseau (firewall, DMZ)</span>
+            </div>
+            <div class="limit-card" role="listitem">
+              <i class="fa-solid fa-triangle-exclamation limit-card__icon text-xs" aria-hidden="true"></i>
+              <span class="text-slate-400 text-sm">Aucune simulation d'attaque ni réponse à incident</span>
+            </div>
+            <div class="limit-card" role="listitem">
+              <i class="fa-solid fa-triangle-exclamation limit-card__icon text-xs" aria-hidden="true"></i>
+              <span class="text-slate-400 text-sm">Architecture peu réaliste — services centralisés sur le DC</span>
+            </div>
+          </div>
+          <p class="text-slate-500 text-sm leading-relaxed mb-5">Ces limites m'ont conduit à concevoir un lab plus avancé, intégrant :</p>
+          <div class="rounded-xl border border-border bg-surface/60 p-5 flex flex-col divide-y divide-border" role="list" aria-label="Évolutions apportées">
+            <div class="evo-item-v2" role="listitem"><div class="evo-dot" aria-hidden="true"></div>Un pare-feu pfSense avec politique deny-by-default</div>
+            <div class="evo-item-v2" role="listitem"><div class="evo-dot" aria-hidden="true"></div>Une segmentation réseau (LAN / DMZ / Admin / Serveurs)</div>
+            <div class="evo-item-v2" role="listitem"><div class="evo-dot" aria-hidden="true"></div>Une DMZ avec machine vulnérable pour simulation d'attaques</div>
+            <div class="evo-item-v2" role="listitem"><div class="evo-dot" aria-hidden="true"></div>Des scénarios attaque / défense documentés</div>
+          </div>
+          <a href="projet-2.html" class="mt-6 inline-flex items-center gap-2 text-sm text-accent hover:underline font-semibold group" aria-label="Voir le projet suivant pfSense DMZ">
+            Voir le projet suivant — pfSense & DMZ
+            <i class="fa-solid fa-arrow-right text-xs group-hover:translate-x-1 transition-transform" aria-hidden="true"></i>
+          </a>
+        </section>
+
+      </div>
+
+      <!-- Sidebar -->
+      <aside class="md:col-span-1" aria-label="Informations du projet">
+        <div class="sticky top-24 flex flex-col gap-4">
+          <div class="sidebar-card">
+            <p class="sidebar-title">Stack technique</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="tag">Windows Server</span>
+              <span class="tag">Active Directory</span>
+              <span class="tag">GPO</span>
+              <span class="tag">PowerShell</span>
+              <span class="tag">Windows 10/11</span>
+              <span class="tag">Serveur de fichiers</span>
+              <span class="tag">DNS</span>
+              <span class="tag">NTFS</span>
+            </div>
+          </div>
+          <div class="sidebar-card">
+            <p class="sidebar-title">Informations</p>
+            <dl class="flex flex-col gap-2.5 text-xs">
+              <div class="flex justify-between items-center">
+                <dt class="text-muted">Type</dt><dd class="text-slate-300">Home Lab</dd>
+              </div>
+              <div class="flex justify-between items-center">
+                <dt class="text-muted">Numéro</dt><dd class="text-slate-300 font-mono">Projet 01 / 03</dd>
+              </div>
+              <div class="flex justify-between items-center">
+                <dt class="text-muted">Statut</dt>
+                <dd class="text-emerald-400 flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse inline-block" aria-hidden="true"></span>Terminé
+                </dd>
+              </div>
+              <div class="flex justify-between items-center">
+                <dt class="text-muted">Domaine</dt><dd class="text-accent font-mono text-xs">BANQUE.local</dd>
+              </div>
+            </dl>
+          </div>
+          <a href="#galerie" class="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl border border-border bg-surface text-sm text-slate-300 hover:border-accent/40 hover:text-white transition-all duration-200">
+            <i class="fa-solid fa-images text-accent text-xs" aria-hidden="true"></i> Voir la galerie
+          </a>
+          <a href="https://github.com/Rodrigue-BALOGOU/Active-directory-window-server-2022" target="_blank" rel="noopener noreferrer" class="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-accent text-white text-sm font-semibold hover:bg-accent-dim transition-all duration-200" aria-label="Code source sur GitHub (nouvelle fenêtre)">
+            <i class="fa-brands fa-github text-sm" aria-hidden="true"></i> GitHub
+          </a>
+          <a href="index.html#projets" class="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl border border-border text-sm text-muted hover:text-slate-300 transition-colors">
+            <i class="fa-solid fa-arrow-left text-xs" aria-hidden="true"></i> Tous les projets
+          </a>
+        </div>
+      </aside>
+
+    </div>
+  </main>
+
+  <!-- MODAL GALERIE -->
+  <div id="modal" class="modal-overlay" role="dialog" aria-modal="true" aria-label="Galerie de captures du projet">
+    <div class="modal-box">
+      <header class="modal-head">
+        <div>
+          <p class="modal-eyebrow" id="modal-counter">01 / 02</p>
+          <h3 class="modal-caption-title" id="modal-caption-title">Titre</h3>
+          <p class="modal-caption-desc" id="modal-caption-desc">Description.</p>
+        </div>
+        <button class="modal-close-btn" id="modal-close" aria-label="Fermer la galerie"><i class="fa-solid fa-xmark"></i></button>
+      </header>
+      <div class="modal-stage">
+        <img id="modal-img-a" class="modal-img is-current" alt="" />
+        <img id="modal-img-b" class="modal-img" alt="" />
+        <button class="modal-arrow modal-arrow--l" id="modal-prev" aria-label="Image précédente" disabled><i class="fa-solid fa-chevron-left"></i></button>
+        <button class="modal-arrow modal-arrow--r" id="modal-next" aria-label="Image suivante"><i class="fa-solid fa-chevron-right"></i></button>
+      </div>
+      <div class="modal-thumbstrip" id="modal-thumbs"></div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-border py-8 px-6 mt-10" role="contentinfo">
+    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+      <span class="font-mono text-xs text-slate-600">Rodrigue Balogou</span>
+      <nav class="flex items-center gap-4" aria-label="Navigation entre projets">
+        <a href="index.html#projets" class="text-xs text-muted hover:text-slate-400 transition-colors font-mono">← Tous les projets</a>
+        <a href="projet-2.html" class="text-xs text-accent hover:underline transition-colors font-mono">Projet 02 →</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

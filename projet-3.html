@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- SEO -->
+  <title>Projet 03 — Active Directory complet en environnement segmenté | Rodrigue Balogou</title>
+  <meta name="description" content="Déploiement d'une infrastructure Active Directory complète dans une architecture pfSense segmentée : Windows Server 2022, GPO avancées, WEF, WSUS, AppLocker, DNS maîtrisé." />
+  <meta name="keywords" content="Active Directory, Windows Server 2022, WEF, WSUS, AppLocker, GPO avancées, pfSense, DNS, cybersécurité, home lab, audit centralisé, Rodrigue Balogou" />
+  <meta name="author" content="Rodrigue Balogou" />
+  <meta name="robots" content="index, follow" />
+
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Projet 03 — Active Directory complet en environnement segmenté" />
+  <meta property="og:description" content="Infrastructure AD complète avec Windows Server 2022, WEF, WSUS, AppLocker dans une architecture réseau segmentée pfSense." />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            accent: '#ff4d4d', 'accent-dim': '#cc3d3d',
+            bg: '#0f172a', 'bg-deep': '#020617',
+            surface: '#111827', 'surface-2': '#1e293b',
+            border: '#1e293b', muted: '#64748b',
+          },
+          fontFamily: {
+            mono: ['"Space Mono"', 'monospace'],
+            sans: ['"DM Sans"', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+  <style>
+    .proj-hero-overlay {
+      position:absolute; inset:0;
+      background:linear-gradient(to top,#0f172a 0%,rgba(15,23,42,0.85) 35%,rgba(15,23,42,0.4) 70%,rgba(15,23,42,0.2) 100%);
+    }
+    .proj-nav-link { position:relative; transition:color 0.2s ease; }
+    .proj-progress-nav { display:flex; align-items:center; gap:0.5rem; }
+    .proj-progress-step { display:flex; align-items:center; gap:0.4rem; font-family:'Space Mono',monospace; font-size:0.65rem; color:#334155; white-space:nowrap; }
+    .proj-progress-step.current { color:#ff4d4d; }
+    .proj-progress-step.done    { color:#475569; }
+    .proj-progress-line { flex:1; height:1px; background:#1e293b; min-width:1.5rem; }
+    .proj-progress-line.done { background:rgba(255,77,77,0.4); }
+
+    .limit-item { display:flex; align-items:flex-start; gap:0.625rem; font-size:0.8125rem; color:#64748b; line-height:1.6; }
+    .evo-item { display:flex; align-items:center; gap:0.625rem; font-size:0.8125rem; color:#94a3b8; padding:0.35rem 0; }
+
+    @media (max-width:767px) {
+      #navbar .max-w-6xl { padding-left:1rem; padding-right:1rem; }
+      main.proj-main { padding-left:1rem !important; padding-right:1rem !important; padding-top:1.5rem !important; }
+      aside .sticky { position:static !important; top:auto !important; }
+    }
+    body.light .proj-hero-overlay { background:linear-gradient(to top,rgba(248,250,252,0.98) 0%,rgba(248,250,252,0.88) 38%,rgba(248,250,252,0.3) 72%,transparent 100%) !important; }
+    body.light .proj-hero-inner h1 { color:#0f172a !important; }
+    body.light .proj-hero-inner p  { color:#475569 !important; }
+    body.light .proj-nav-link { color:#64748b !important; }
+    body.light .proj-nav-link:hover { color:#0f172a !important; background:rgba(226,232,240,0.65) !important; }
+  </style>
+</head>
+<body class="font-sans antialiased">
+
+  <!-- NAVBAR -->
+  <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" role="navigation" aria-label="Navigation principale">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+      <a href="index.html" class="font-mono text-sm font-bold tracking-tight text-white" aria-label="Retour à l'accueil">Rodrigue Balogou</a>
+      <ul class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-400">
+        <li><a href="index.html#accueil"     class="nav-link hover:text-white transition-colors">Accueil</a></li>
+        <li><a href="index.html#apropos"     class="nav-link hover:text-white transition-colors">À propos</a></li>
+        <li><a href="index.html#projets"     class="nav-link hover:text-white transition-colors">Projets</a></li>
+        <li><a href="index.html#competences" class="nav-link hover:text-white transition-colors">Compétences</a></li>
+        <li><a href="index.html#outils"      class="nav-link hover:text-white transition-colors">Outils</a></li>
+        <li><a href="index.html#activite"    class="nav-link hover:text-white transition-colors">Parcours</a></li>
+      </ul>
+      <div class="flex items-center gap-3">
+        <button id="theme-toggle" class="theme-toggle text-slate-400 hover:text-white" aria-label="Basculer le thème">
+          <i id="theme-icon" class="fa-solid fa-moon text-lg"></i>
+        </button>
+        <button id="menu-btn" class="md:hidden text-slate-400 hover:text-white" aria-label="Ouvrir le menu">
+          <i class="fa-solid fa-bars text-lg"></i>
+        </button>
+      </div>
+    </div>
+    <div id="mobile-menu" class="hidden md:hidden border-t border-border bg-bg/95 backdrop-blur-md">
+      <ul class="flex flex-col px-6 py-4 gap-4 text-sm font-medium text-slate-400">
+        <li><a href="index.html#accueil" class="mobile-link hover:text-white">Accueil</a></li>
+        <li><a href="index.html#projets" class="mobile-link hover:text-white">Projets</a></li>
+        <li><a href="index.html#contact" class="mobile-link hover:text-white">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="pt-20">
+    <div class="relative h-72 md:h-96 overflow-hidden">
+      <img src="./images/hero3.png"
+        alt="Infrastructure Active Directory complète avec serveurs Windows Server 2022 dans environnement sécurisé"
+        style="width:100%;height:100%;object-fit:cover;opacity:0.35" />
+      <div class="proj-hero-overlay" aria-hidden="true"></div>
+      <div class="proj-hero-inner absolute inset-0 flex flex-col justify-end px-6 pb-10 max-w-5xl mx-auto" style="left:50%;transform:translateX(-50%);width:100%;">
+        <nav class="proj-progress-nav mb-5" aria-label="Progression des projets">
+          <span class="proj-progress-step done">
+            <span class="w-4 h-4 rounded-full border border-border flex items-center justify-center" style="font-size:0.5rem;" aria-hidden="true">1</span>AD
+          </span>
+          <div class="proj-progress-line done" aria-hidden="true"></div>
+          <span class="proj-progress-step done">
+            <span class="w-4 h-4 rounded-full border border-border flex items-center justify-center" style="font-size:0.5rem;" aria-hidden="true">2</span>pfSense
+          </span>
+          <div class="proj-progress-line done" aria-hidden="true"></div>
+          <span class="proj-progress-step current" aria-current="step">
+            <span class="w-4 h-4 rounded-full border-2 border-accent flex items-center justify-center text-accent" style="font-size:0.5rem;" aria-hidden="true">3</span>Projet 03
+          </span>
+        </nav>
+        <div class="flex flex-wrap items-center gap-2 mb-4">
+          <span class="text-xs font-mono px-2.5 py-1 rounded-full bg-accent/10 border border-accent/20 text-accent">Projet 03</span>
+          <span class="text-xs font-mono px-2.5 py-1 rounded-full bg-surface-2/80 text-muted border border-border">Active Directory</span>
+          <span class="text-xs font-mono px-2.5 py-1 rounded-full bg-surface-2/80 text-muted border border-border">Environnement segmenté</span>
+          <span class="text-xs font-mono px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Terminé</span>
+        </div>
+        <h1 class="text-2xl md:text-3xl lg:text-4xl font-bold text-white leading-tight max-w-2xl">
+          Active Directory complet dans un environnement segmenté
+        </h1>
+        <p class="text-slate-400 text-sm mt-3 max-w-xl leading-relaxed">
+          Infrastructure AD intégrée dans l'architecture pfSense avec sécurité avancée — GPO, WEF, WSUS, AppLocker et DNS maîtrisé.
+        </p>
+      </div>
+    </div>
+  </header>
+
+  <main class="proj-main max-w-5xl mx-auto px-6 py-12">
+    <nav class="flex gap-1 mb-12 border-b border-border pb-5 overflow-x-auto" aria-label="Sections du projet">
+      <a href="#contexte"    class="proj-nav-link text-xs font-mono text-muted hover:text-white whitespace-nowrap px-3 py-1.5 rounded-lg hover:bg-surface-2">Contexte</a>
+      <a href="#objectifs"   class="proj-nav-link text-xs font-mono text-muted hover:text-white whitespace-nowrap px-3 py-1.5 rounded-lg hover:bg-surface-2">Objectifs</a>
+      <a href="#architecture" class="proj-nav-link text-xs font-mono text-muted hover:text-white whitespace-nowrap px-3 py-1.5 rounded-lg hover:bg-surface-2">Architecture</a>
+      <a href="#integration" class="proj-nav-link text-xs font-mono text-muted hover:text-white whitespace-nowrap px-3 py-1.5 rounded-lg hover:bg-surface-2">Intégration</a>
+      <a href="#dns"         class="proj-nav-link text-xs font-mono text-muted hover:text-white whitespace-nowrap px-3 py-1.5 rounded-lg hover:bg-surface-2">DNS</a>
+      <a href="#gpo"         class="proj-nav-link text-xs font-mono text-muted hover:text-white whitespace-nowrap px-3 py-1.5 rounded-lg hover:bg-surface-2">GPO</a>
+      <a href="#services"    class="proj-nav-link text-xs font-mono text-muted hover:text-white whitespace-nowrap px-3 py-1.5 rounded-lg hover:bg-surface-2">Services</a>
+      <a href="#resultats"   class="proj-nav-link text-xs font-mono text-muted hover:text-white whitespace-nowrap px-3 py-1.5 rounded-lg hover:bg-surface-2">Résultats</a>
+      <a href="#limites"     class="proj-nav-link text-xs font-mono text-muted hover:text-white whitespace-nowrap px-3 py-1.5 rounded-lg hover:bg-surface-2">Limites</a>
+    </nav>
+
+    <div class="grid md:grid-cols-3 gap-10">
+      <div class="md:col-span-2 flex flex-col gap-12">
+
+        <section id="contexte">
+          <p class="text-accent font-mono text-xs tracking-widest mb-4">00 — CONTEXTE</p>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            Après avoir mis en place l'architecture réseau segmentée avec pfSense, j'ai déployé une infrastructure Active Directory complète dans cet environnement. L'objectif était de simuler un SI d'entreprise réaliste : gestion centralisée des accès, sécurisation des postes et centralisation des services d'audit et de mise à jour.
+          </p>
+        </section>
+
+        <section id="objectifs">
+          <p class="text-accent font-mono text-xs tracking-widest mb-4">01 — OBJECTIFS</p>
+          <div class="grid sm:grid-cols-2 gap-3" role="list">
+            <div class="flex items-start gap-3 p-4 rounded-xl border border-border bg-surface/60" role="listitem">
+              <i class="fa-solid fa-check text-accent text-xs mt-0.5 w-4 flex-shrink-0" aria-hidden="true"></i>
+              <span class="text-slate-300 text-sm">Intégrer Active Directory dans une architecture segmentée</span>
+            </div>
+            <div class="flex items-start gap-3 p-4 rounded-xl border border-border bg-surface/60" role="listitem">
+              <i class="fa-solid fa-check text-accent text-xs mt-0.5 w-4 flex-shrink-0" aria-hidden="true"></i>
+              <span class="text-slate-300 text-sm">Déployer des GPO de sécurité avancées</span>
+            </div>
+            <div class="flex items-start gap-3 p-4 rounded-xl border border-border bg-surface/60" role="listitem">
+              <i class="fa-solid fa-check text-accent text-xs mt-0.5 w-4 flex-shrink-0" aria-hidden="true"></i>
+              <span class="text-slate-300 text-sm">Centraliser logs (WEF) et mises à jour (WSUS)</span>
+            </div>
+            <div class="flex items-start gap-3 p-4 rounded-xl border border-border bg-surface/60" role="listitem">
+              <i class="fa-solid fa-check text-accent text-xs mt-0.5 w-4 flex-shrink-0" aria-hidden="true"></i>
+              <span class="text-slate-300 text-sm">Maîtriser la résolution DNS interne et externe</span>
+            </div>
+          </div>
+        </section>
+
+        <section id="architecture">
+          <p class="text-accent font-mono text-xs tracking-widest mb-4">02 — ARCHITECTURE</p>
+          <div class="rounded-2xl border border-border bg-surface/60 p-6">
+            <div class="grid gap-4 sm:grid-cols-2">
+              <div class="rounded-2xl bg-bg-deep/60 p-4">
+                <p class="text-xs text-muted uppercase tracking-[.25em] mb-3">Serveurs</p>
+                <p class="text-white text-sm font-semibold">4 serveurs Windows Server 2022</p>
+                <p class="text-slate-500 text-xs mt-2">DC · Fichiers · WSUS · WEF</p>
+              </div>
+              <div class="rounded-2xl bg-bg-deep/60 p-4">
+                <p class="text-xs text-muted uppercase tracking-[.25em] mb-3">Postes clients</p>
+                <p class="text-white text-sm font-semibold">4 postes clients</p>
+                <p class="text-slate-500 text-xs mt-2">2× Windows 11 Enterprise · 2× Windows Pro</p>
+              </div>
+            </div>
+            <p class="text-slate-400 text-sm leading-relaxed mt-6">
+              Tous les systèmes sont intégrés au domaine Active Directory et déployés dans l'architecture segmentée pfSense.
+            </p>
+          </div>
+          <button type="button" class="btn-screenshots mt-6 inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-accent text-white text-xs font-semibold hover:bg-accent-dim transition-all duration-200"
+            data-images='[{"src":"./images/architecture-AD.png","title":"Infrastructure Active Directory","desc":"4 serveurs Windows Server 2022 et 4 postes clients intégrés au domaine dans l architecture segmentée."}]'
+            aria-label="Voir l'infrastructure Active Directory">
+            <i class="fa-solid fa-eye text-xs" aria-hidden="true"></i> Voir l'infrastructure AD
+          </button>
+        </section>
+
+        <section id="integration">
+          <p class="text-accent font-mono text-xs tracking-widest mb-4">03 — INTÉGRATION RÉSEAU</p>
+          <div class="flex flex-col gap-4">
+            <div class="impl-block">
+              <div class="flex items-center gap-2 mb-3">
+                <i class="fa-solid fa-network-wired text-accent text-sm" aria-hidden="true"></i>
+                <h3 class="text-white font-semibold text-sm">Déploiement dans les zones pfSense</h3>
+              </div>
+              <ul class="flex flex-col gap-1.5">
+                <li class="impl-item">Active Directory déployé dans la zone serveurs internes</li>
+                <li class="impl-item">Machines clientes (LAN) jointes au domaine</li>
+                <li class="impl-item">Communications inter-zones contrôlées via pfSense</li>
+              </ul>
+            </div>
+            <div class="impl-block">
+              <div class="flex items-center gap-2 mb-3">
+                <i class="fa-solid fa-shield-halved text-accent text-sm" aria-hidden="true"></i>
+                <h3 class="text-white font-semibold text-sm">Ouverture des ports AD</h3>
+              </div>
+              <ul class="flex flex-col gap-1.5">
+                <li class="impl-item">Ports ouverts : LDAP, Kerberos, SMB, DNS</li>
+                <li class="impl-item">Restriction vers l'adresse IP du contrôleur de domaine uniquement</li>
+                <li class="impl-item">Alias pfSense pour la gestion simplifiée des règles</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section id="dns">
+          <p class="text-accent font-mono text-xs tracking-widest mb-4">04 — DNS & ACCÈS INTERNET</p>
+          <div class="impl-block">
+            <div class="flex items-center gap-2 mb-3">
+              <i class="fa-solid fa-globe text-accent text-sm" aria-hidden="true"></i>
+              <h3 class="text-white font-semibold text-sm">Flux DNS maîtrisé</h3>
+            </div>
+            <ul class="flex flex-col gap-1.5">
+              <li class="impl-item">Postes clients → DC pour la résolution DNS interne</li>
+              <li class="impl-item">DC forward les requêtes externes → pfSense → Internet</li>
+              <li class="impl-item">Résolution interne AD maîtrisée, externe via pfSense</li>
+            </ul>
+          </div>
+        </section>
+
+        <section id="gpo">
+          <p class="text-accent font-mono text-xs tracking-widest mb-4">05 — STRATÉGIES DE GROUPE (GPO)</p>
+          <div class="flex flex-col gap-4">
+            <div class="impl-block">
+              <div class="flex items-center gap-2 mb-3">
+                <i class="fa-solid fa-lock text-accent text-sm" aria-hidden="true"></i>
+                <h3 class="text-white font-semibold text-sm">Sécurité des postes</h3>
+              </div>
+              <ul class="flex flex-col gap-1.5">
+                <li class="impl-item">Politique de mot de passe renforcée</li>
+                <li class="impl-item">Verrouillage de compte après 5 tentatives (15 minutes)</li>
+                <li class="impl-item">Restrictions : registre, panneau de configuration, PowerShell</li>
+                <li class="impl-item">Fond d'écran centralisé pour tous les postes</li>
+              </ul>
+            </div>
+            <div class="impl-block">
+              <div class="flex items-center gap-2 mb-3">
+                <i class="fa-solid fa-ban text-accent text-sm" aria-hidden="true"></i>
+                <h3 class="text-white font-semibold text-sm">Contrôle applicatif — AppLocker</h3>
+              </div>
+              <ul class="flex flex-col gap-1.5">
+                <li class="impl-item">AppLocker déployé sur Windows 11 Enterprise</li>
+                <li class="impl-item">Contrôle de l'exécution des applications non autorisées</li>
+              </ul>
+            </div>
+            <div class="impl-block">
+              <div class="flex items-center gap-2 mb-3">
+                <i class="fa-solid fa-chart-line text-accent text-sm" aria-hidden="true"></i>
+                <h3 class="text-white font-semibold text-sm">Audit & centralisation des logs (WEF)</h3>
+              </div>
+              <ul class="flex flex-col gap-1.5">
+                <li class="impl-item">Politiques d'audit activées sur DC et postes clients</li>
+                <li class="impl-item">Windows Event Forwarding (WEF) — mode source-initiated</li>
+                <li class="impl-item">Collecte centralisée des journaux DC et clients pour corrélation</li>
+              </ul>
+            </div>
+            <div class="impl-block">
+              <div class="flex items-center gap-2 mb-3">
+                <i class="fa-solid fa-sync text-accent text-sm" aria-hidden="true"></i>
+                <h3 class="text-white font-semibold text-sm">Mises à jour centralisées (WSUS)</h3>
+              </div>
+              <ul class="flex flex-col gap-1.5">
+                <li class="impl-item">Serveur WSUS dédié déployé dans la zone serveurs</li>
+                <li class="impl-item">Configuration des clients via GPO</li>
+                <li class="impl-item">Contrôle et approbation des mises à jour système</li>
+              </ul>
+            </div>
+          </div>
+          <button type="button" class="btn-screenshots mt-6 inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-accent text-white text-xs font-semibold hover:bg-accent-dim transition-all duration-200"
+            data-images='[{"src":"./images/group-policy.png","title":"Stratégies GPO avancées","desc":"Politiques de sécurité : mots de passe, AppLocker, audit WEF et WSUS."}]'
+            aria-label="Voir les politiques GPO">
+            <i class="fa-solid fa-eye text-xs" aria-hidden="true"></i> Voir les politiques GPO
+          </button>
+        </section>
+
+        <section id="services">
+          <p class="text-accent font-mono text-xs tracking-widest mb-4">06 — SERVICES COMPLÉMENTAIRES</p>
+          <div class="impl-block">
+            <div class="flex items-center gap-2 mb-3">
+              <i class="fa-solid fa-folder-open text-accent text-sm" aria-hidden="true"></i>
+              <h3 class="text-white font-semibold text-sm">Serveur de fichiers</h3>
+            </div>
+            <ul class="flex flex-col gap-1.5">
+              <li class="impl-item">Gestion des accès via groupes de sécurité AD</li>
+              <li class="impl-item">Attribution des permissions NTFS par rôle utilisateur</li>
+              <li class="impl-item">Intégration complète au domaine Active Directory</li>
+            </ul>
+          </div>
+        </section>
+
+        <section id="resultats">
+          <p class="text-accent font-mono text-xs tracking-widest mb-4">07 — RÉSULTATS</p>
+          <div class="flex flex-col gap-3" role="list" aria-label="Résultats obtenus">
+            <div class="result-card" role="listitem"><i class="fa-solid fa-check-circle text-accent text-sm w-5 mr-3" aria-hidden="true"></i><span>Infrastructure AD fonctionnelle et sécurisée</span></div>
+            <div class="result-card" role="listitem"><i class="fa-solid fa-check-circle text-accent text-sm w-5 mr-3" aria-hidden="true"></i><span>Intégration cohérente dans l'architecture segmentée pfSense</span></div>
+            <div class="result-card" role="listitem"><i class="fa-solid fa-check-circle text-accent text-sm w-5 mr-3" aria-hidden="true"></i><span>Contrôle granulaire des accès utilisateurs et machines</span></div>
+            <div class="result-card" role="listitem"><i class="fa-solid fa-check-circle text-accent text-sm w-5 mr-3" aria-hidden="true"></i><span>Résolution DNS maîtrisée (interne et externe)</span></div>
+            <div class="result-card" role="listitem"><i class="fa-solid fa-check-circle text-accent text-sm w-5 mr-3" aria-hidden="true"></i><span>Centralisation des journaux d'événements et des mises à jour</span></div>
+          </div>
+        </section>
+
+        <section id="limites">
+          <p class="text-accent font-mono text-xs tracking-widest mb-4">08 — LIMITES & ÉVOLUTION</p>
+          <div class="rounded-xl border border-yellow-500/20 bg-yellow-500/5 p-5 mb-6" role="list" aria-label="Limites identifiées">
+            <ul class="flex flex-col gap-2">
+              <li class="limit-item" role="listitem">
+                <i class="fa-solid fa-triangle-exclamation text-yellow-500/80 text-xs w-4" aria-hidden="true"></i>
+                Droits d'administration encore trop larges sur certains comptes
+              </li>
+              <li class="limit-item" role="listitem">
+                <i class="fa-solid fa-triangle-exclamation text-yellow-500/80 text-xs w-4" aria-hidden="true"></i>
+                IDS/IPS pas encore intégré à l'architecture
+              </li>
+              <li class="limit-item" role="listitem">
+                <i class="fa-solid fa-triangle-exclamation text-yellow-500/80 text-xs w-4" aria-hidden="true"></i>
+                Monitoring centralisé Zabbix en cours de déploiement
+              </li>
+            </ul>
+          </div>
+          <div class="flex flex-col gap-2" role="list" aria-label="Évolutions prévues">
+            <div class="evo-item" role="listitem"><i class="fa-solid fa-arrow-right text-accent text-xs w-4" aria-hidden="true"></i>Intégration du monitoring Zabbix</div>
+            <div class="evo-item" role="listitem"><i class="fa-solid fa-arrow-right text-accent text-xs w-4" aria-hidden="true"></i>Analyse avancée des logs (corrélation d'événements)</div>
+            <div class="evo-item" role="listitem"><i class="fa-solid fa-arrow-right text-accent text-xs w-4" aria-hidden="true"></i>Mise en place de Suricata IDS/IPS</div>
+            <div class="evo-item" role="listitem"><i class="fa-solid fa-arrow-right text-accent text-xs w-4" aria-hidden="true"></i>Scénarios attaque / défense documentés avec playbooks</div>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- Sidebar -->
+      <aside class="md:col-span-1" aria-label="Informations du projet">
+        <div class="sticky top-24 flex flex-col gap-4">
+          <div class="sidebar-card">
+            <p class="sidebar-title">Stack technique</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="tag">Windows Server 2022</span>
+              <span class="tag">Active Directory</span>
+              <span class="tag">GPO</span>
+              <span class="tag">WSUS</span>
+              <span class="tag">WEF</span>
+              <span class="tag">AppLocker</span>
+              <span class="tag">pfSense</span>
+              <span class="tag">DNS</span>
+            </div>
+          </div>
+          <div class="sidebar-card">
+            <p class="sidebar-title">Informations</p>
+            <dl class="flex flex-col gap-2.5 text-xs">
+              <div class="flex justify-between items-center">
+                <dt class="text-muted">Type</dt><dd class="text-slate-300">Home Lab</dd>
+              </div>
+              <div class="flex justify-between items-center">
+                <dt class="text-muted">Numéro</dt><dd class="text-slate-300 font-mono">Projet 03 / 03</dd>
+              </div>
+              <div class="flex justify-between items-center">
+                <dt class="text-muted">Statut</dt>
+                <dd class="text-emerald-400 flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse inline-block" aria-hidden="true"></span>Terminé
+                </dd>
+              </div>
+              <div class="flex justify-between items-center">
+                <dt class="text-muted">Domaine</dt><dd class="text-accent font-mono text-xs">corp.securetech.local</dd>
+              </div>
+            </dl>
+          </div>
+          <a href="#architecture" class="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl border border-border bg-surface text-sm text-slate-300 hover:border-accent/40 hover:text-white transition-all duration-200">
+            <i class="fa-solid fa-eye text-accent text-xs" aria-hidden="true"></i> Voir l'infrastructure
+          </a>
+          <a href="https://github.com/Rodrigue-BALOGOU/entreprise-network-security-lab/blob/main/configuration/active-directory.md" target="_blank" rel="noopener noreferrer" class="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-accent text-white text-sm font-semibold hover:bg-accent-dim transition-all duration-200" aria-label="Documentation GitHub du lab (nouvelle fenêtre)">
+            <i class="fa-brands fa-github text-sm" aria-hidden="true"></i>Voir la doc sur GitHub
+          </a>
+          <a href="index.html#projets" class="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl border border-border text-sm text-muted hover:text-slate-300 transition-colors">
+            <i class="fa-solid fa-arrow-left text-xs" aria-hidden="true"></i> Tous les projets
+          </a>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <!-- MODAL -->
+  <div id="modal" class="modal-overlay" role="dialog" aria-modal="true" aria-label="Galerie de captures du projet">
+    <div class="modal-box">
+      <header class="modal-head">
+        <div>
+          <p class="modal-eyebrow" id="modal-counter">01 / 01</p>
+          <h3 class="modal-caption-title" id="modal-caption-title">Titre</h3>
+          <p class="modal-caption-desc" id="modal-caption-desc">Description.</p>
+        </div>
+        <button class="modal-close-btn" id="modal-close" aria-label="Fermer la galerie"><i class="fa-solid fa-xmark"></i></button>
+      </header>
+      <div class="modal-stage">
+        <img id="modal-img-a" class="modal-img is-current" alt="" />
+        <img id="modal-img-b" class="modal-img" alt="" />
+        <button class="modal-arrow modal-arrow--l" id="modal-prev" aria-label="Image précédente" disabled><i class="fa-solid fa-chevron-left"></i></button>
+        <button class="modal-arrow modal-arrow--r" id="modal-next" aria-label="Image suivante"><i class="fa-solid fa-chevron-right"></i></button>
+      </div>
+      <div class="modal-thumbstrip" id="modal-thumbs"></div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-border py-8 px-6 mt-10" role="contentinfo">
+    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+      <span class="font-mono text-xs text-slate-600">Rodrigue Balogou</span>
+      <nav class="flex items-center gap-4" aria-label="Navigation entre projets">
+        <a href="projet-2.html" class="text-xs text-muted hover:text-slate-400 transition-colors font-mono">← Projet 02</a>
+        <a href="index.html#projets" class="text-xs text-accent hover:underline transition-colors font-mono">Tous les projets</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

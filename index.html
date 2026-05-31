@@ -1,0 +1,945 @@
+<!doctype html>
+<html lang="fr" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- SEO -->
+    <title>Rodrigue Balogou — Sécurité des systèmes & réseaux informatiques</title>
+    <meta name="description" content="Portfolio de Rodrigue Balogou, étudiant en sécurité des systèmes et réseaux. Spécialisé en administration système, Active Directory, pfSense, supervision SOC et cybersécurité défensive." />
+    <meta name="keywords" content="Rodrigue Balogou, cybersécurité, Active Directory, pfSense, sécurité réseau, administration système, Windows Server, home lab, SOC, Suricata, Zabbix, WEF, WSUS, GPO, portfolio cybersécurité" />
+    <meta name="author" content="Rodrigue Balogou" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://Rodrigue-BALOGOU.github.io/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Rodrigue Balogou — Sécurité des systèmes & réseaux" />
+    <meta property="og:description" content="Labs cybersécurité orientés entreprise : Active Directory, pfSense DMZ, supervision SOC, WEF, Suricata IDS/IPS." />
+    <meta property="og:url" content="https://Rodrigue-BALOGOU.github.io/" />
+    <meta property="og:locale" content="fr_FR" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Rodrigue Balogou — Cybersécurité & Administration système" />
+    <meta name="twitter:description" content="Étudiant en sécurité des systèmes et réseaux. Labs enterprise, Active Directory, pfSense, SOC." />
+
+    <!-- Schema.org structured data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Rodrigue Balogou",
+      "jobTitle": "Étudiant en sécurité des systèmes et réseaux",
+      "description": "Spécialisé en administration système, sécurité réseau et supervision SOC. Construction de labs cybersécurité orientés entreprise.",
+      "url": "https://rodrigue-balogou.github.io/",
+      "sameAs": [
+        "https://linkedin.com/in/rodrigue-balogou-73329a349",
+        "https://github.com/Rodrigue-BALOGOU"
+      ],
+      "knowsAbout": ["Active Directory", "pfSense", "Cybersécurité", "Administration système", "Windows Server", "Suricata", "Zabbix", "SOC"]
+    }
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              accent: "#ff4d4d",
+              "accent-dim": "#cc3d3d",
+              bg: "#0f172a",
+              "bg-deep": "#020617",
+              surface: "#111827",
+              "surface-2": "#1e293b",
+              border: "#1e293b",
+              muted: "#64748b",
+            },
+            fontFamily: {
+              mono: ['"Space Mono"', "monospace"],
+              sans: ['"DM Sans"', "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body class="font-sans antialiased">
+
+    <!-- NAVBAR -->
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" role="navigation" aria-label="Navigation principale">
+      <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+        <a href="#accueil" class="font-mono text-sm font-bold tracking-tight text-white flex items-center gap-2" aria-label="Retour à l'accueil">
+          Rodrigue Balogou
+        </a>
+        <ul class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-400" role="list">
+          <li><a href="#accueil"     class="nav-link hover:text-white transition-colors">Accueil</a></li>
+          <li><a href="#apropos"     class="nav-link hover:text-white transition-colors">À propos</a></li>
+          <li><a href="#projets"     class="nav-link hover:text-white transition-colors">Projets</a></li>
+          <li><a href="#competences" class="nav-link hover:text-white transition-colors">Compétences</a></li>
+          <li><a href="#outils"      class="nav-link hover:text-white transition-colors">Outils</a></li>
+          <li><a href="#activite"    class="nav-link hover:text-white transition-colors">Parcours</a></li>
+        </ul>
+        <div class="flex items-center gap-3">
+          <button id="theme-toggle" class="theme-toggle text-slate-400 hover:text-white" aria-label="Activer le mode clair">
+            <i id="theme-icon" class="fa-solid fa-moon text-lg"></i>
+          </button>
+          <button id="menu-btn" class="md:hidden text-slate-400 hover:text-white" aria-label="Ouvrir le menu">
+            <i class="fa-solid fa-bars text-lg"></i>
+          </button>
+        </div>
+      </div>
+      <div id="mobile-menu" class="hidden md:hidden border-t border-border bg-bg/95 backdrop-blur-md">
+        <ul class="flex flex-col px-6 py-4 gap-4 text-sm font-medium text-slate-400">
+          <li><a href="#accueil"     class="mobile-link hover:text-white transition-colors">Accueil</a></li>
+          <li><a href="#apropos"     class="mobile-link hover:text-white transition-colors">À propos</a></li>
+          <li><a href="#projets"     class="mobile-link hover:text-white transition-colors">Projets</a></li>
+          <li><a href="#competences" class="mobile-link hover:text-white transition-colors">Compétences</a></li>
+          <li><a href="#outils"      class="mobile-link hover:text-white transition-colors">Outils</a></li>
+          <li><a href="#activite"    class="mobile-link hover:text-white transition-colors">Parcours</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <section id="accueil" class="hero-section relative min-h-screen flex items-center justify-center overflow-hidden" aria-label="Présentation">
+      <div class="hero-bg-grid" aria-hidden="true"></div>
+      <div class="hero-gradient-float" aria-hidden="true"></div>
+      <div class="hero-particles" aria-hidden="true"></div>
+      <div class="hero-glow" aria-hidden="true"></div>
+
+      <div class="relative z-10 mx-auto w-full max-w-6xl px-6">
+        <div class="hero-panel grid gap-8 md:grid-cols-[0.95fr_1.05fr] items-center py-10 md:py-16">
+
+          <div class="hero-visual order-1 md:order-2 flex justify-center md:justify-end">
+            <div class="hero-image-frame">
+              <img src="./images/photoprofessionelle.jpg" alt="Portrait professionnel de Rodrigue Balogou, étudiant en cybersécurité" />
+            </div>
+          </div>
+
+          <div class="hero-copy order-2 md:order-1 text-center md:text-left">
+            <div class="hero-tag inline-flex items-center gap-2 px-4 py-1.5 mb-6 rounded-full border border-accent/30 bg-accent/5 text-accent text-xs font-mono tracking-wide">
+              <span class="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" aria-hidden="true"></span>
+             Infrastructures orientées entreprise
+            </div>
+
+            <h1 class="hero-title text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight tracking-tight mb-5">
+              Administration système<br/>& sécurité réseau
+            </h1>
+
+            <p class="hero-copytext text-slate-400 text-base sm:text-lg leading-relaxed max-w-xl mx-auto md:mx-0 mb-8">
+              Je construis des laboratoires inspirés des environnements professionnels afin de développer mes compétences en administration système, réseau et Cybersécurité
+            </p>
+
+            <div class="hero-actions flex flex-col sm:flex-row justify-center md:justify-start gap-4">
+              <a href="#projets" class="btn-primary inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-accent text-white text-sm font-semibold hover:bg-accent-dim transition-all duration-200">
+                <i class="fa-solid fa-folder-open text-xs" aria-hidden="true"></i> Voir mes projets
+              </a>
+              <a href="https://github.com/Rodrigue-BALOGOU" target="_blank" rel="noopener noreferrer" class="btn-outline inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg border border-slate-700 text-slate-300 text-sm font-medium transition-all duration-200" aria-label="Voir mon profil GitHub (nouvelle fenêtre)">
+                <i class="fa-brands fa-github" aria-hidden="true"></i> GitHub
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- À PROPOS -->
+    <section id="apropos" class="py-24 px-6 bg-bg-deep/40" aria-labelledby="apropos-title">
+      <div class="max-w-6xl mx-auto">
+        <div class="grid md:grid-cols-2 gap-16 items-center">
+          <div>
+            <div class="section-header mb-10">
+              <span class="text-accent font-mono text-xs tracking-widest">00 — À PROPOS</span>
+              <h2 id="apropos-title" class="text-3xl font-bold text-white mt-2">Rodrigue Balogou</h2>
+              <p class="text-muted text-sm mt-1 font-mono">Administrateur systèmes & réseaux en formation</p>
+            </div>
+            <div class="space-y-5 max-w-2xl">
+              <p class="text-slate-300 text-base leading-relaxed">
+              Étudiant en sécurité des systèmes et réseaux, je développe des infrastructures virtuelles inspirées des environnements d'entreprise afin de renforcer mes compétences en administration système, réseau et cybersécurité. J'explore l'administration et la sécurisation des systèmes, les pare-feu, la supervision, la détection d'intrusions ainsi que l'analyse des événements de sécurité.
+              <p class="text-slate-300 text-base leading-relaxed">
+              Mon objectif est de devenir un professionnel capable d'administrer, sécuriser et superviser des infrastructures informatiques réelles. Chaque projet documenté me permet d'acquérir une expérience pratique proche du terrain.
+             
+              </p>
+              <ul class="space-y-3 mt-6" role="list">
+                <li class="flex items-start gap-3 text-slate-400 leading-relaxed">
+                  <i class="fa-solid fa-circle-dot text-accent text-xs mt-1 w-4 flex-shrink-0" aria-hidden="true"></i>
+                  Administration systèmes & réseaux
+                </li>
+                <li class="flex items-start gap-3 text-slate-400 leading-relaxed">
+                  <i class="fa-solid fa-circle-dot text-accent text-xs mt-1 w-4 flex-shrink-0" aria-hidden="true"></i>
+                 Durcissement et sécurisation des systèmes   
+                </li>
+                <li class="flex items-start gap-3 text-slate-400 leading-relaxed">
+                  <i class="fa-solid fa-circle-dot text-accent text-xs mt-1 w-4 flex-shrink-0" aria-hidden="true"></i>
+                 Supervision & analyse défensive
+                </li>
+              </ul>
+            </div>
+            <div class="mt-10 flex flex-wrap gap-3">
+              <a href="https://linkedin.com/in/rodrigue-balogou-73329a349" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-border bg-surface text-xs text-slate-300 hover:border-accent/30 hover:text-white transition-all duration-200" aria-label="Mon profil LinkedIn">
+                <i class="fa-brands fa-linkedin text-accent" aria-hidden="true"></i> LinkedIn
+              </a>
+              <a href="https://github.com/Rodrigue-BALOGOU" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-border bg-surface text-xs text-slate-300 hover:border-accent/30 hover:text-white transition-all duration-200" aria-label="Mon profil GitHub">
+                <i class="fa-brands fa-github text-accent" aria-hidden="true"></i> GitHub
+              </a>
+              <button id="cv-modal-btn" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-border bg-surface text-xs text-slate-300 hover:border-accent/30 hover:text-white transition-all duration-200" aria-label="Voir mon CV">
+                <i class="fa-regular fa-file-pdf text-accent" aria-hidden="true"></i> Voir mon CV
+              </button>
+              <a href="#contact" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-accent text-white text-xs font-semibold hover:bg-accent-dim transition-all duration-200">
+                <i class="fa-solid fa-envelope text-xs" aria-hidden="true"></i> Me contacter
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJETS -->
+    <section id="projets" class="py-24 px-6" aria-labelledby="projets-title">
+      <div class="max-w-6xl mx-auto">
+        <div class="section-header mb-6 animate-fade-in-up animate-fade-delay-1">
+          <span class="text-accent font-mono text-xs tracking-widest">01 — PROJETS</span>
+          <h2 id="projets-title" class="text-3xl font-bold text-white mt-2">Home Lab & Travaux pratiques</h2>
+          <p class="text-slate-500 text-sm mt-2 max-w-lg">
+            Chaque projet est né des limites du précédent — une progression organique vers un lab de niveau professionnel.
+          </p>
+        </div>
+        <div class="flex items-center gap-3 mb-14 pl-1">
+          <span class="text-xs font-mono text-muted">Lab v1</span>
+          <div class="flex-1 max-w-xs h-px bg-border relative">
+            <div class="absolute inset-y-0 left-0 w-full bg-gradient-to-r from-accent/60 to-accent/20 rounded-full"></div>
+          </div>
+          <span class="text-xs font-mono text-accent">Lab v3</span>
+        </div>
+
+        <div class="flex flex-col gap-8">
+
+          <!-- Projet 1 -->
+          <article class="project-card group rounded-[28px] border border-border bg-surface/80 backdrop-blur-xl overflow-hidden transition-all duration-300 animate-fade-in-up animate-fade-delay-1" aria-label="Projet 1 : Active Directory">
+            <div class="grid md:grid-cols-5 gap-0">
+              <div class="md:col-span-2 relative overflow-hidden h-52 md:h-auto">
+                <img src="./images/active-directory.jpg" alt="Schéma d'infrastructure Active Directory avec contrôleur de domaine Windows Server" class="proj-img w-full h-full object-cover" loading="lazy" />
+                <div class="proj-img-overlay absolute inset-0 hidden md:block"></div>
+                <div class="absolute top-4 left-4">
+                  <span class="text-xs font-mono px-3 py-1 rounded-full bg-bg/80 border border-border text-accent backdrop-blur-sm">Active Directory</span>
+                </div>
+              </div>
+              <div class="md:col-span-3 p-7 flex flex-col justify-between">
+                <div>
+                  <div class="flex items-start justify-between mb-3">
+                    <span class="text-xs font-mono text-muted hidden md:block">Projet 01</span>
+                    <span class="text-xs font-mono px-2 py-1 rounded bg-surface-2 text-muted">Terminé</span>
+                  </div>
+                  <h3 class="text-white font-bold text-lg mb-3 leading-snug project-title">
+                    Active Directory & premières stratégies de sécurité
+                  </h3>
+                  <p class="text-slate-500 text-sm leading-relaxed mb-4">
+                    Déploiement d'un domaine AD sur Windows Server, gestion des utilisateurs et groupes, stratégies GPO de sécurité et serveur de fichiers partagé avec permissions NTFS.
+                  </p>
+                  <div class="flex flex-wrap gap-2 mb-6">
+                    <span class="tag project-tag">Windows Server</span>
+                    <span class="tag project-tag">Active Directory</span>
+                    <span class="tag project-tag">GPO</span>
+                    <span class="tag project-tag">Serveur de fichiers</span>
+                    <span class="tag project-tag">PowerShell</span>
+                  </div>
+                </div>
+                <div class="flex flex-wrap gap-3">
+                  <a href="projet-1.html" class="project-action inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-accent text-white text-xs font-semibold hover:bg-accent-dim transition-all duration-200">
+                    <i class="fa-solid fa-arrow-right text-xs" aria-hidden="true"></i> Voir le projet
+                  </a>
+                  <a href="https://github.com/Rodrigue-BALOGOU/Active-directory-window-server-2022" target="_blank" rel="noopener noreferrer" class="btn-project-outline project-action inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-border text-slate-400 text-xs font-medium hover:border-slate-500 hover:text-white transition-all duration-200" aria-label="Code source GitHub du projet Active Directory">
+                    <i class="fa-brands fa-github text-xs" aria-hidden="true"></i> GitHub
+                  </a>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Projet 2 -->
+          <article class="project-card group rounded-[28px] border border-border bg-surface/80 backdrop-blur-xl overflow-hidden transition-all duration-300 animate-fade-in-up animate-fade-delay-2" aria-label="Projet 2 : Architecture pfSense et DMZ">
+            <div class="grid md:grid-cols-5 gap-0">
+              <div class="md:col-span-2 relative overflow-hidden h-52 md:h-auto">
+                <img src="./images/pfsense.png" alt="Interface pfSense avec règles de firewall et segmentation réseau" class="proj-img w-full h-full object-cover" loading="lazy" />
+                <div class="proj-img-overlay absolute inset-0 hidden md:block"></div>
+                <div class="absolute top-4 left-4">
+                  <span class="text-xs font-mono px-3 py-1 rounded-full bg-bg/80 border border-border text-accent backdrop-blur-sm">pfSense / DMZ</span>
+                </div>
+              </div>
+              <div class="md:col-span-3 p-7 flex flex-col justify-between">
+                <div>
+                  <div class="flex items-start justify-between mb-3">
+                    <span class="text-xs font-mono text-muted hidden md:block">Projet 02</span>
+                    <span class="text-xs font-mono px-2 py-1 rounded bg-surface-2 text-muted">Terminé</span>
+                  </div>
+                  <h3 class="text-white font-bold text-lg mb-3 leading-snug project-title">
+                    Architecture réseau segmentée et sécurisée avec pfSense
+                  </h3>
+                  <p class="text-slate-500 text-sm leading-relaxed mb-4">
+                    Architecture 5 interfaces (WAN, LAN, DMZ, serveurs internes, administration) avec politique deny-all par défaut, NAT centralisé, DHCP et machine vulnérable exposée en DMZ pour les exercices.
+                  </p>
+                  <div class="flex flex-wrap gap-2 mb-6">
+                    <span class="tag project-tag">pfSense</span>
+                    <span class="tag project-tag">DMZ</span>
+                    <span class="tag project-tag">Firewall</span>
+                    <span class="tag project-tag">Segmentation</span>
+                    <span class="tag project-tag">NAT / DHCP</span>
+                    <span class="tag project-tag">VulnHub</span>
+                  </div>
+                </div>
+                <div class="flex flex-wrap gap-3">
+                  <a href="projet-2.html" class="project-action inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-accent text-white text-xs font-semibold hover:bg-accent-dim transition-all duration-200">
+                    <i class="fa-solid fa-arrow-right text-xs" aria-hidden="true"></i> Voir le projet
+                  </a>
+                  <a href="https://github.com/Rodrigue-BALOGOU" target="_blank" rel="noopener noreferrer" class="btn-project-outline project-action inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-border text-slate-400 text-xs font-medium hover:border-slate-500 hover:text-white transition-all duration-200" aria-label="Code source GitHub du projet pfSense">
+                    <i class="fa-brands fa-github text-xs" aria-hidden="true"></i> GitHub
+                  </a>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Projet 3 -->
+          <article class="project-card group rounded-[28px] border border-border bg-surface/80 backdrop-blur-xl overflow-hidden transition-all duration-300 animate-fade-in-up animate-fade-delay-3" aria-label="Projet 3 : Active Directory complet dans environnement segmenté">
+            <div class="grid md:grid-cols-5 gap-0">
+              <div class="md:col-span-2 relative overflow-hidden h-52 md:h-auto">
+                <img src="./images/ad-complet.png" alt="Infrastructure Active Directory complète intégrée dans une architecture réseau segmentée pfSense" class="proj-img w-full h-full object-cover" loading="lazy" />
+                <div class="proj-img-overlay absolute inset-0 hidden md:block"></div>
+                <div class="absolute top-4 left-4">
+                  <span class="text-xs font-mono px-3 py-1 rounded-full bg-bg/80 border border-border text-accent backdrop-blur-sm">AD + Réseau</span>
+                </div>
+              </div>
+              <div class="md:col-span-3 p-7 flex flex-col justify-between">
+                <div>
+                  <div class="flex items-start justify-between mb-3">
+                    <span class="text-xs font-mono text-muted hidden md:block">Projet 03</span>
+                    <span class="text-xs font-mono px-2 py-1 rounded bg-accent/10 text-accent border border-accent/20">Terminé</span>
+                  </div>
+                  <h3 class="text-white font-bold text-lg mb-3 leading-snug project-title">
+                    Active Directory complet dans un environnement segmenté
+                  </h3>
+                  <p class="text-slate-500 text-sm leading-relaxed mb-4">
+                    Intégration d'un AD complet (DC, serveur de fichiers, WSUS, WEF) dans l'architecture pfSense. AppLocker, audit centralisé via WEF, résolution DNS maîtrisée.
+                  </p>
+                  <div class="flex flex-wrap gap-2 mb-6">
+                    <span class="tag project-tag">Windows Server 2022</span>
+                    <span class="tag project-tag">WSUS</span>
+                    <span class="tag project-tag">WEF</span>
+                    <span class="tag project-tag">AppLocker</span>
+                    <span class="tag project-tag">DNS</span>
+                    <span class="tag project-tag">GPO avancées</span>
+                  </div>
+                </div>
+                <div class="flex flex-wrap gap-3">
+                  <a href="projet-3.html" class="project-action inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-accent text-white text-xs font-semibold hover:bg-accent-dim transition-all duration-200">
+                    <i class="fa-solid fa-arrow-right text-xs" aria-hidden="true"></i> Voir le projet
+                  </a>
+                  <a href="https://github.com/Rodrigue-BALOGOU/entreprise-network-security-lab/blob/main/configuration/active-directory.md" target="_blank" rel="noopener noreferrer" class="btn-project-outline project-action inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-border text-slate-400 text-xs font-medium hover:border-slate-500 hover:text-white transition-all duration-200" aria-label="Documentation GitHub du projet AD complet">
+                    <i class="fa-brands fa-github text-xs" aria-hidden="true"></i> GitHub
+                  </a>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <!-- DÉVELOPPEMENT WEB -->
+        <div class="mt-20">
+          <div class="flex items-center gap-5 mb-12">
+            <div class="h-px flex-1 bg-border"></div>
+            <div class="flex items-center gap-2">
+              <i class="fa-solid fa-code text-accent text-xs" aria-hidden="true"></i>
+              <span class="text-xs font-mono text-muted tracking-[0.2em] uppercase">Développement Web</span>
+            </div>
+            <div class="h-px flex-1 bg-border"></div>
+          </div>
+          <p class="text-slate-500 text-sm mb-10 max-w-xl">
+            En parallèle du lab, je développe des applications web complètes — back-end PHP, sécurité applicative, déploiement en production.
+          </p>
+
+          <div class="grid md:grid-cols-2 gap-6">
+            <!-- PLANIFY -->
+            <article class="dev-card dev-card--featured reveal">
+              <div class="dev-card__preview">
+                <img src="./images/site1.png" alt="Interface de PLANIFY, plateforme SaaS de gestion d'événements" class="dev-card__preview-img" loading="lazy" />
+                <div class="dev-card__preview-fade"></div>
+                <span class="dev-card__preview-badge"><span class="dev-card__preview-badge-dot"></span> En ligne</span>
+              </div>
+              <div class="dev-card__header">
+                <span class="dev-card__eyebrow"><i class="fa-solid fa-star text-xs mr-1" aria-hidden="true"></i>Projet web</span>
+              </div>
+              <div>
+                <h3 class="dev-card__title">PLANIFY</h3>
+                <p class="dev-card__subtitle">Plateforme SaaS de gestion d'événements</p>
+              </div>
+              <p class="dev-card__desc">
+                Application multi-rôles en PHP natif avec authentification sécurisée par sessions, protection CSRF et validation serveur. Trois interfaces distinctes adaptées à chaque profil.
+              </p>
+              <div class="dev-card__roles" role="list" aria-label="Rôles utilisateurs">
+                <div class="dev-card__role" role="listitem"><i class="fa-solid fa-shield-halved text-xs" aria-hidden="true"></i><span>Admin</span></div>
+                <div class="dev-card__role" role="listitem"><i class="fa-solid fa-calendar-plus text-xs" aria-hidden="true"></i><span>Organisateur</span></div>
+                <div class="dev-card__role" role="listitem"><i class="fa-solid fa-user text-xs" aria-hidden="true"></i><span>Utilisateur</span></div>
+              </div>
+              <div class="dev-card__tags">
+                <span class="tag">PHP</span><span class="tag">MySQL</span><span class="tag">AJAX</span>
+                <span class="tag">Tailwind CSS</span><span class="tag">CSRF protection</span><span class="tag">Auth sessions</span>
+              </div>
+              <div class="dev-card__actions">
+                <a href="https://planifyevent.infinityfreeapp.com" target="_blank" rel="noopener noreferrer" class="dev-card__btn dev-card__btn--primary" aria-label="Voir le site PLANIFY (nouvelle fenêtre)">
+                  <i class="fa-solid fa-arrow-up-right-from-square text-xs" aria-hidden="true"></i> Voir le site
+                </a>
+                <a href="https://github.com/Rodrigue-BALOGOU" target="_blank" rel="noopener noreferrer" class="dev-card__btn dev-card__btn--outline" aria-label="Code source PLANIFY sur GitHub">
+                  <i class="fa-brands fa-github text-xs" aria-hidden="true"></i> GitHub
+                </a>
+              </div>
+            </article>
+
+            <!-- Gestion rapports -->
+            <article class="dev-card reveal">
+              <div class="dev-card__preview">
+                <img src="./images/site2.png" alt="Interface de la plateforme de gestion des rapports de stage, version web et Android" class="dev-card__preview-img" loading="lazy" />
+                <div class="dev-card__preview-fade"></div>
+                <span class="dev-card__preview-badge"><span class="dev-card__preview-badge-dot"></span> En ligne</span>
+              </div>
+              <div class="dev-card__header">
+                <span class="dev-card__eyebrow"><i class="fa-solid fa-mobile-screen-button text-xs mr-1" aria-hidden="true"></i>Web + Android</span>
+              </div>
+              <div>
+                <h3 class="dev-card__title" style="font-size:1.05rem">Gestion de rapports de stage</h3>
+                <p class="dev-card__subtitle">Plateforme web + Application Android</p>
+              </div>
+              <p class="dev-card__desc">
+                Système multi-rôles de gestion de rapports. Les étudiants soumettent leurs rapports depuis l'app mobile. Les professeurs valident ou rejettent. Les administrateurs supervisent les accès.
+              </p>
+              <div class="dev-card__roles" role="list" aria-label="Rôles utilisateurs">
+                <div class="dev-card__role" role="listitem"><i class="fa-solid fa-graduation-cap text-xs" aria-hidden="true"></i><span>Étudiant</span></div>
+                <div class="dev-card__role" role="listitem"><i class="fa-solid fa-chalkboard-user text-xs" aria-hidden="true"></i><span>Professeur</span></div>
+                <div class="dev-card__role" role="listitem"><i class="fa-solid fa-user-shield text-xs" aria-hidden="true"></i><span>Admin</span></div>
+              </div>
+              <div class="dev-card__tags">
+                <span class="tag">PHP</span><span class="tag">MySQL</span><span class="tag">Java Android</span>
+                <span class="tag">REST API</span><span class="tag">Bootstrap</span>
+              </div>
+              <div class="dev-card__actions">
+                <a href="#" target="_blank" rel="noopener noreferrer" class="dev-card__btn dev-card__btn--primary">
+                  <i class="fa-solid fa-arrow-up-right-from-square text-xs" aria-hidden="true"></i> Voir le site
+                </a>
+                <a href="https://vm.tiktok.com/ZMHEbRp6QKHTj-sHoIc/" target="_blank" rel="noopener noreferrer" class="dev-card__btn dev-card__btn--tiktok" aria-label="Démo de l'app Android sur TikTok">
+                  <i class="fa-brands fa-tiktok text-xs" aria-hidden="true"></i> TikTok
+                </a>
+              </div>
+              <p class="dev-card__note"><i class="fa-solid fa-circle-info text-xs" aria-hidden="true"></i> App mobile non déployée — démo disponible sur TikTok</p>
+            </article>
+          </div>
+        </div>
+
+        <!-- AUTRES TRAVAUX -->
+        <div class="mt-14 rounded-[2rem] border border-slate-800 bg-surface/80 p-6 shadow-[0_30px_80px_rgba(15,23,42,0.22)] backdrop-blur-xl">
+          <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between mb-6">
+            <div>
+              <p class="text-xs uppercase tracking-[0.35em] text-slate-500">Autres travaux</p>
+              <h3 class="text-2xl font-semibold text-white">Expérimentations & travaux secondaires</h3>
+            </div>
+            <p class="max-w-xl text-sm text-slate-500">Projets secondaires axés sur l'exploration technique.</p>
+          </div>
+          <div class="grid gap-4 sm:grid-cols-2">
+
+            <article class="secondary-card rounded-3xl border border-slate-800 bg-surface/70 p-5 transition duration-300 hover:-translate-y-1 hover:border-accent/25">
+              <div class="flex items-start gap-3 mb-3">
+                <div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-accent/10 text-accent flex-shrink-0" aria-hidden="true"><i class="fa-solid fa-file-lines"></i></div>
+                <div>
+                  <h4 class="text-sm font-semibold text-white">Centralisation des logs avec WEF</h4>
+                  <p class="text-xs text-slate-500">Collecte d'événements Windows pour corrélation et audit centralisé.</p>
+                </div>
+              </div>
+              <div class="flex flex-wrap items-center justify-between gap-3 text-xs">
+                <span class="inline-flex rounded-full bg-slate-900/75 px-3 py-1 text-slate-300">WEF</span>
+                <span class="inline-flex rounded-full bg-emerald-500/10 px-3 py-1 text-emerald-300">Terminé</span>
+              </div>
+              <div class="mt-4 flex items-center justify-between gap-3">
+                <span class="text-xs text-slate-500">Preuves & captures</span>
+                <button type="button" data-project="wef" class="btn-screenshots inline-flex items-center gap-2 rounded-full bg-slate-900/80 px-3 py-2 text-xs font-semibold text-accent hover:bg-slate-800 transition" aria-label="Voir les captures du projet WEF">
+                  Voir preuves <i class="fa-solid fa-camera" aria-hidden="true"></i>
+                </button>
+              </div>
+            </article>
+
+            <article class="secondary-card rounded-3xl border border-slate-800 bg-surface/70 p-5 transition duration-300 hover:-translate-y-1 hover:border-accent/25">
+              <div class="flex items-start gap-3 mb-3">
+                <div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-accent/10 text-accent flex-shrink-0" aria-hidden="true"><i class="fa-solid fa-arrow-down-from-bracket"></i></div>
+                <div>
+                  <h4 class="text-sm font-semibold text-white">Gestion des mises à jour WSUS</h4>
+                  <p class="text-xs text-slate-500">Distribution centralisée des patchs Windows pour les postes et serveurs du lab.</p>
+                </div>
+              </div>
+              <div class="flex flex-wrap items-center justify-between gap-3 text-xs">
+                <span class="inline-flex rounded-full bg-slate-900/75 px-3 py-1 text-slate-300">WSUS</span>
+                <span class="inline-flex rounded-full bg-emerald-500/10 px-3 py-1 text-emerald-300">Terminé</span>
+              </div>
+              <div class="mt-4 flex items-center justify-between gap-3">
+                <span class="text-xs text-slate-500">Preuves & captures</span>
+                <button type="button" data-project="wsus" class="btn-screenshots inline-flex items-center gap-2 rounded-full bg-slate-900/80 px-3 py-2 text-xs font-semibold text-accent hover:bg-slate-800 transition" aria-label="Voir les captures du projet WSUS">
+                  Voir preuves <i class="fa-solid fa-camera" aria-hidden="true"></i>
+                </button>
+              </div>
+            </article>
+
+            <article class="secondary-card rounded-3xl border border-slate-800 bg-surface/70 p-5 transition duration-300 hover:-translate-y-1 hover:border-accent/25">
+              <div class="flex items-start gap-3 mb-3">
+                <div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-accent/10 text-accent flex-shrink-0" aria-hidden="true"><i class="fa-solid fa-server"></i></div>
+                <div>
+                  <h4 class="text-sm font-semibold text-white">Serveur de fichiers sécurisé</h4>
+                  <p class="text-xs text-slate-500">Partage SMB avec permissions NTFS strictes et surveillance des accès.</p>
+                </div>
+              </div>
+              <div class="flex flex-wrap items-center justify-between gap-3 text-xs">
+                <span class="inline-flex rounded-full bg-slate-900/75 px-3 py-1 text-slate-300">SMB / NTFS</span>
+                <span class="inline-flex rounded-full bg-emerald-500/10 px-3 py-1 text-emerald-300">Terminé</span>
+              </div>
+              <div class="mt-4 flex items-center justify-between gap-3">
+                <span class="text-xs text-slate-500">Preuves & captures</span>
+                <button type="button" data-project="smb" class="btn-screenshots inline-flex items-center gap-2 rounded-full bg-slate-900/80 px-3 py-2 text-xs font-semibold text-accent hover:bg-slate-800 transition" aria-label="Voir les captures du projet SMB">
+                  Voir preuves <i class="fa-solid fa-camera" aria-hidden="true"></i>
+                </button>
+              </div>
+            </article>
+
+            <article class="secondary-card rounded-3xl border border-slate-800 bg-surface/70 p-5 transition duration-300 hover:-translate-y-1 hover:border-accent/25">
+              <div class="flex items-start gap-3 mb-3">
+                <div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-accent/10 text-accent flex-shrink-0" aria-hidden="true"><i class="fa-solid fa-eye"></i></div>
+                <div>
+                  <h4 class="text-sm font-semibold text-white">Monitoring avec Zabbix</h4>
+                  <p class="text-xs text-slate-500">Supervision des hôtes et alerting des services critiques en temps réel.</p>
+                </div>
+              </div>
+              <div class="flex flex-wrap items-center justify-between gap-3 text-xs">
+                <span class="inline-flex rounded-full bg-slate-900/75 px-3 py-1 text-slate-300">Zabbix</span>
+                 <span class="inline-flex rounded-full bg-emerald-500/10 px-3 py-1 text-emerald-300">Terminé</span>
+              </div>
+              <div class="mt-4 flex items-center justify-between gap-3">
+                <span class="text-xs text-slate-500">Preuves & captures</span>
+                <button type="button" data-project="zabbix" class="btn-screenshots inline-flex items-center gap-2 rounded-full bg-slate-900/80 px-3 py-2 text-xs font-semibold text-accent hover:bg-slate-800 transition" aria-label="Voir les captures du projet Zabbix">
+                  Voir preuves <i class="fa-solid fa-camera" aria-hidden="true"></i>
+                </button>
+              </div>
+            </article>
+
+            <article class="secondary-card rounded-3xl border border-slate-800 bg-surface/70 p-5 transition duration-300 hover:-translate-y-1 hover:border-accent/25">
+              <div class="flex items-start gap-3 mb-3">
+                <div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-accent/10 text-accent flex-shrink-0" aria-hidden="true"><i class="fa-solid fa-shield-halved"></i></div>
+                <div>
+                  <h4 class="text-sm font-semibold text-white">Configuration IDS/IPS Suricata</h4>
+                  <p class="text-xs text-slate-500">Règles et alertes pour détecter les intrusions réseau dans le lab.</p>
+                </div>
+              </div>
+              <div class="flex flex-wrap items-center justify-between gap-3 text-xs">
+                <span class="inline-flex rounded-full bg-slate-900/75 px-3 py-1 text-slate-300">Suricata IDS/IPS</span>
+                <span class="inline-flex rounded-full bg-accent/10 px-3 py-1 text-accent">En cours</span>
+              </div>
+              <div class="mt-4 flex items-center justify-between gap-3">
+                <span class="text-xs text-slate-500">Preuves & captures</span>
+                <button type="button" data-project="ids" class="btn-screenshots inline-flex items-center gap-2 rounded-full bg-slate-900/80 px-3 py-2 text-xs font-semibold text-accent hover:bg-slate-800 transition" aria-label="Voir les captures du projet Suricata IDS">
+                  Voir preuves <i class="fa-solid fa-camera" aria-hidden="true"></i>
+                </button>
+              </div>
+            </article>
+
+            <article class="secondary-card rounded-3xl border border-slate-800 bg-surface/70 p-5 transition duration-300 hover:-translate-y-1 hover:border-accent/25">
+              <div class="flex items-start gap-3 mb-3">
+                <div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-accent/10 text-accent flex-shrink-0" aria-hidden="true"><i class="fa-solid fa-user-secret"></i></div>
+                <div>
+                  <h4 class="text-sm font-semibold text-white">Scénarios attaque / défense</h4>
+                  <p class="text-xs text-slate-500">Simulations de compromission et réponses contrôlées avec playbooks.</p>
+                </div>
+              </div>
+              <div class="flex flex-wrap items-center justify-between gap-3 text-xs">
+                <span class="inline-flex rounded-full bg-slate-900/75 px-3 py-1 text-slate-300">Red Team</span>
+                <span class="inline-flex rounded-full bg-accent/10 px-3 py-1 text-accent">En cours</span>
+              </div>
+              <div class="mt-4 flex items-center justify-between gap-3">
+                <span class="text-xs text-slate-500">Preuves & captures</span>
+                <button type="button" data-project="attack-defense" class="btn-screenshots inline-flex items-center gap-2 rounded-full bg-slate-900/80 px-3 py-2 text-xs font-semibold text-accent hover:bg-slate-800 transition" aria-label="Voir les captures des scénarios attaque/défense">
+                  Voir preuves <i class="fa-solid fa-camera" aria-hidden="true"></i>
+                </button>
+              </div>
+            </article>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MODAL GALERIE -->
+    <div id="modal" class="modal-overlay" role="dialog" aria-modal="true" aria-label="Galerie de captures">
+      <div class="modal-box">
+        <header class="modal-head">
+          <div>
+            <p class="modal-eyebrow" id="modal-counter">01 / 03</p>
+            <h3 class="modal-caption-title" id="modal-caption-title">Titre</h3>
+            <p class="modal-caption-desc" id="modal-caption-desc">Description.</p>
+          </div>
+          <button class="modal-close-btn" id="modal-close" aria-label="Fermer la galerie"><i class="fa-solid fa-xmark"></i></button>
+        </header>
+        <div class="modal-stage">
+          <img id="modal-img-a" class="modal-img is-current" alt="" />
+          <img id="modal-img-b" class="modal-img" alt="" />
+          <button class="modal-arrow modal-arrow--l" id="modal-prev" aria-label="Image précédente" disabled><i class="fa-solid fa-chevron-left"></i></button>
+          <button class="modal-arrow modal-arrow--r" id="modal-next" aria-label="Image suivante"><i class="fa-solid fa-chevron-right"></i></button>
+        </div>
+        <div class="modal-thumbstrip" id="modal-thumbs"></div>
+      </div>
+    </div>
+
+    <!-- CV MODAL -->
+    <div id="cv-modal" class="cv-modal-overlay" role="dialog" aria-modal="true" aria-label="Curriculum Vitae de Rodrigue Balogou">
+      <div class="cv-modal-box">
+        <div class="cv-modal-head">
+          <div>
+            <p class="cv-modal-eyebrow">CV · Curriculum Vitae</p>
+            <h3 class="cv-modal-title">Rodrigue Balogou</h3>
+            <p class="cv-modal-sub">Sécurité des systèmes & réseaux · Bénin</p>
+          </div>
+          <button class="cv-modal-close" id="cv-modal-close" aria-label="Fermer le CV"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="cv-modal-viewer">
+          <iframe class="cv-iframe" id="cv-iframe" title="CV Rodrigue Balogou — Étudiant en cybersécurité"></iframe>
+          <div class="cv-mobile">
+            <i class="fa-regular fa-file-pdf cv-pdf-icon" aria-hidden="true"></i>
+            <p>L'aperçu PDF n'est pas disponible sur mobile.<br />Téléchargez le CV pour le consulter.</p>
+          </div>
+        </div>
+        <div class="cv-modal-foot">
+          <a href="./CV_Rodrigue_BALOGOU.pdf" download class="cv-btn-dl" aria-label="Télécharger le CV en PDF"><i class="fa-solid fa-download" aria-hidden="true"></i> Télécharger</a>
+          <button id="cv-modal-close2" class="cv-btn-close">Fermer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- COMPÉTENCES -->
+    <section id="competences" class="py-24 px-6 bg-bg-deep/40" aria-labelledby="competences-title">
+      <div class="max-w-6xl mx-auto">
+        <div class="section-header mb-16">
+          <span class="text-accent font-mono text-xs tracking-widest">02 — COMPÉTENCES</span>
+          <h2 id="competences-title" class="text-3xl font-bold text-white mt-2">Compétences opérationnelles</h2>
+        </div>
+        <div class="grid gap-8 xl:grid-cols-3">
+          <article class="rounded-[32px] border border-border bg-surface/80 p-8 shadow-[0_30px_60px_rgba(0,0,0,0.18)] transition-transform duration-300 hover:-translate-y-1 reveal">
+            <div class="inline-flex items-center gap-3 rounded-full bg-accent/10 px-4 py-2 mb-6 text-sm text-accent font-semibold">
+              <i class="fa-solid fa-server" aria-hidden="true"></i>Systèmes & AD
+            </div>
+            <h3 class="text-2xl font-semibold text-white mb-4">Infrastructure robuste</h3>
+            <p class="text-sm text-slate-400 mb-6">Déploiement et sécurisation de plateformes Windows et Linux avec gestion centralisée des identités.</p>
+            <ul class="space-y-3 text-sm text-slate-300" role="list">
+              <li class="flex items-start gap-3"><span class="mt-1 h-2 w-2 rounded-full bg-accent flex-shrink-0" aria-hidden="true"></span>Gestion des utilisateurs et des stratégies GPO</li>
+              <li class="flex items-start gap-3"><span class="mt-1 h-2 w-2 rounded-full bg-accent flex-shrink-0" aria-hidden="true"></span>Déploiement de services Windows Server</li>
+              <li class="flex items-start gap-3"><span class="mt-1 h-2 w-2 rounded-full bg-accent flex-shrink-0" aria-hidden="true"></span>Administration système Windows et Linux</li>
+              <li class="flex items-start gap-3"><span class="mt-1 h-2 w-2 rounded-full bg-accent flex-shrink-0" aria-hidden="true"></span>Virtualisation et segementation d'environnement de test</li>
+            </ul>
+          </article>
+          <article class="rounded-[32px] border border-border bg-surface/80 p-8 shadow-[0_30px_60px_rgba(0,0,0,0.18)] transition-transform duration-300 hover:-translate-y-1 reveal">
+            <div class="inline-flex items-center gap-3 rounded-full bg-accent/10 px-4 py-2 mb-6 text-sm text-accent font-semibold">
+              <i class="fa-solid fa-network-wired" aria-hidden="true"></i>Réseau & Sécurité
+            </div>
+            <h3 class="text-2xl font-semibold text-white mb-4">Architecture défensive</h3>
+            <p class="text-sm text-slate-400 mb-6">Segmentation, filtrage et supervision pour un trafic réseau contrôlé et traçable.</p>
+            <ul class="space-y-3 text-sm text-slate-300" role="list">
+              <li class="flex items-start gap-3"><span class="mt-1 h-2 w-2 rounded-full bg-accent flex-shrink-0" aria-hidden="true"></span>segmentation réseau et filtrage de trafic</li>
+              <li class="flex items-start gap-3"><span class="mt-1 h-2 w-2 rounded-full bg-accent flex-shrink-0" aria-hidden="true"></span>Services DNS, DHCP et NAT</li>
+              <li class="flex items-start gap-3"><span class="mt-1 h-2 w-2 rounded-full bg-accent flex-shrink-0" aria-hidden="true"></span>Centralisation et analyse des journaux</li>
+              <li class="flex items-start gap-3"><span class="mt-1 h-2 w-2 rounded-full bg-accent flex-shrink-0" aria-hidden="true"></span>Détection d'intrusions et supervision</li>
+            </ul>
+          </article>
+          <article class="rounded-[32px] border border-border bg-surface/80 p-8 shadow-[0_30px_60px_rgba(0,0,0,0.18)] transition-transform duration-300 hover:-translate-y-1 reveal">
+            <div class="inline-flex items-center gap-3 rounded-full bg-accent/10 px-4 py-2 mb-6 text-sm text-accent font-semibold">
+              <i class="fa-solid fa-code" aria-hidden="true"></i>Code & automatisation
+            </div>
+            <h3 class="text-2xl font-semibold text-white mb-4">Developpement d'applications</h3>
+            <p class="text-sm text-slate-400 mb-6">Applications fiables et automatisation pratique, du front-end au back-end.</p>
+            <ul class="space-y-3 text-sm text-slate-300" role="list">
+              <li class="flex items-start gap-3"><span class="mt-1 h-2 w-2 rounded-full bg-accent flex-shrink-0" aria-hidden="true"></span>Automatisation PowerShell, Bash et Python</li>
+              <li class="flex items-start gap-3"><span class="mt-1 h-2 w-2 rounded-full bg-accent flex-shrink-0" aria-hidden="true"></span>Interfaces Web HTML, CSS, JavaScript</li>
+              <li class="flex items-start gap-3"><span class="mt-1 h-2 w-2 rounded-full bg-accent flex-shrink-0" aria-hidden="true"></span>Développement d'applications PHP / MySQL</li>
+              <li class="flex items-start gap-3"><span class="mt-1 h-2 w-2 rounded-full bg-accent flex-shrink-0" aria-hidden="true"></span>Bonne pratiques de sécurité applicative</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- OUTILS & TECHNOLOGIES -->
+    <section id="outils" class="py-24 px-6" aria-labelledby="outils-title">
+      <div class="max-w-6xl mx-auto">
+        <div class="section-header mb-16">
+          <span class="text-accent font-mono text-xs tracking-widest">03 — TECHNOLOGIES</span>
+          <h2 id="outils-title" class="text-3xl font-bold text-white mt-2">Technologies maîtrisées</h2>
+          <p class="text-slate-500 text-sm mt-2 max-w-md">Stack technique utilisée dans le home lab et les projets — du niveau système jusqu'au développement.</p>
+        </div>
+        <div class="tech-grid">
+          <div class="tech-card reveal">
+            <div class="tech-card__header">
+              <div class="tech-card__icon" aria-hidden="true"><i class="fa-solid fa-server"></i></div>
+              <div><p class="tech-card__title">Infrastructure & Systèmes</p><p class="tech-card__desc">Virtualisation, OS, environnements lab</p></div>
+            </div>
+            <div class="tech-card__items">
+              <div class="tech-item">Windows Server 2022</div>
+              <div class="tech-item">Ubuntu Server / Debian</div>
+              <div class="tech-item">VMware Workstation / Virtual Box</div>
+              <div class="tech-item">Windows 10 / 11</div>
+            </div>
+          </div>
+          <div class="tech-card reveal">
+            <div class="tech-card__header">
+              <div class="tech-card__icon" aria-hidden="true"><i class="fa-solid fa-shield-halved"></i></div>
+              <div><p class="tech-card__title">Réseau & Sécurité</p><p class="tech-card__desc">Filtrage, segmentation, détection</p></div>
+            </div>
+            <div class="tech-card__items">
+              <div class="tech-item">pfSense</div>
+              <div class="tech-item">WEF / WSUS</div>
+              <div class="tech-item">Suricata IDS/IPS</div>
+              <div class="tech-item">Zabbix</div>
+            </div>
+          </div>
+          <div class="tech-card reveal">
+            <div class="tech-card__header">
+              <div class="tech-card__icon" aria-hidden="true"><i class="fa-solid fa-terminal"></i></div>
+              <div><p class="tech-card__title">Scripting & Automatisation</p><p class="tech-card__desc">Administration et tâches système</p></div>
+            </div>
+            <div class="tech-card__items">
+              <div class="tech-item">PowerShell</div>
+              <div class="tech-item">Python</div>
+              <div class="tech-item">Bash</div>
+              <div class="tech-item">Script d'administration</div>
+            </div>
+          </div>
+          <div class="tech-card reveal">
+            <div class="tech-card__header">
+              <div class="tech-card__icon" aria-hidden="true"><i class="fa-solid fa-bolt"></i></div>
+              <div><p class="tech-card__title">Laboratoire & CTF</p><p class="tech-card__desc">Pentest et laboratoire d'attaque</p></div>
+            </div>
+            <div class="tech-card__items">
+              <div class="tech-item">Kali Linux (pentest)</div>
+              <div class="tech-item">VulnHub</div>
+              <div class="tech-item">TryHackMe</div>
+              <div class="tech-item">Picoctf / Root-Me</div>
+            </div>
+          </div>
+          <div class="tech-card reveal">
+            <div class="tech-card__header">
+              <div class="tech-card__icon" aria-hidden="true"><i class="fa-solid fa-globe"></i></div>
+              <div><p class="tech-card__title">Développement Web</p><p class="tech-card__desc">Back-end, front-end, sécurité applicative</p></div>
+            </div>
+            <div class="tech-card__items">
+              <div class="tech-item">PHP / MySQL</div>
+              <div class="tech-item">HTML / CSS / JS</div>
+              <div class="tech-item">Bootstrap / Tailwind CSS</div>
+              <div class="tech-item">XML / Java Android</div>
+            </div>
+          </div>
+          <div class="tech-card reveal">
+            <div class="tech-card__header">
+              <div class="tech-card__icon" aria-hidden="true"><i class="fa-solid fa-toolbox"></i></div>
+              <div><p class="tech-card__title">Outils & Écosystème</p><p class="tech-card__desc">Versioning et environnement de travail</p></div>
+            </div>
+            <div class="tech-card__items">
+              <div class="tech-item">Git / GitHub</div>
+              <div class="tech-item">VS Code</div>
+              <div class="tech-item">Linux CLI</div>
+              <div class="tech-item">Markdown</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PARCOURS -->
+    <section id="activite" class="py-24 px-6" aria-labelledby="parcours-title">
+      <div class="max-w-6xl mx-auto">
+        <div class="section-header mb-16">
+          <span class="text-accent font-mono text-xs tracking-widest">04 — PARCOURS & EXPÉRIENCE</span>
+          <h2 id="parcours-title" class="text-3xl font-bold text-white mt-2">Parcours & Expérience</h2>
+          <p class="text-slate-500 text-sm mt-2 max-w-md">Formation et mise en pratique technique — progression par l'expérimentation concrète.</p>
+        </div>
+        <div class="relative border-l border-border pl-8 flex flex-col gap-10 max-w-2xl" role="list" aria-label="Chronologie du parcours">
+          <div class="timeline-item relative" role="listitem">
+            <div class="timeline-dot" aria-hidden="true"></div>
+            <div class="flex items-start justify-between mb-1">
+              <h3 class="text-white font-semibold">Licence en Informatique — Sécurité des systèmes et réseaux</h3>
+              <span class="text-xs font-mono text-muted ml-4 whitespace-nowrap">2024 — présent</span>
+            </div>
+            <p class="text-slate-500 text-sm leading-relaxed">Formation en administration systèmes et réseaux avec spécialisation sécurité. Complétée par un home lab personnel pour une mise en pratique réelle.</p>
+          </div>
+          <div class="timeline-item relative" role="listitem">
+            <div class="timeline-dot" aria-hidden="true"></div>
+            <div class="flex items-start justify-between mb-1">
+              <h3 class="text-white font-semibold">Home Lab — Infrastructure cybersécurité</h3>
+              <span class="text-xs font-mono text-muted ml-4 whitespace-nowrap">2025 - Présent</span>
+            </div>
+            <p class="text-slate-500 text-sm leading-relaxed">Conception et déploiement d'une infrastructure virtualisée complète : architecture réseau segmentée, Active Directory Windows Server 2022, GPO, WEF, WSUS, Zabbix, Suricata IDS/IPS. Documentation GitHub disponible.</p>
+          </div>
+          <div class="timeline-item relative" role="listitem">
+            <div class="timeline-dot" aria-hidden="true"></div>
+            <div class="flex items-start justify-between mb-1">
+              <h3 class="text-white font-semibold">PLANIFY & Gestion de rapports — Développement web</h3>
+              <span class="text-xs font-mono text-muted ml-4 whitespace-nowrap">2025 — 2026</span>
+            </div>
+            <p class="text-slate-500 text-sm leading-relaxed">Deux applications web en production : PLANIFY (plateforme SaaS événementielle, PHP/MySQL) et un système de gestion de rapports de stage multiplateforme (Web + Android).</p>
+          </div>
+          <div class="timeline-item relative" role="listitem">
+            <div class="timeline-dot" aria-hidden="true"></div>
+            <div class="flex items-start justify-between mb-1">
+              <h3 class="text-white font-semibold">CTF & Entraînement offensif</h3>
+            </div>
+            <p class="text-slate-500 text-sm leading-relaxed">Pratique sur Picoctf et Root-Me — exploitation de vulnérabilités web (XSS, SQLi), reconnaissance OSINT, forensic et initiation à la cryptographie.</p>
+          </div>
+        </div>
+        <div class="mt-20 grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div class="stat-card p-6 rounded-xl border border-border bg-surface text-center">
+            <div class="text-3xl font-bold font-mono text-white mb-1">6+</div>
+            <div class="text-xs text-muted tracking-wide">Projets lab</div>
+          </div>
+          <div class="stat-card p-6 rounded-xl border border-border bg-surface text-center">
+            <div class="text-3xl font-bold font-mono text-white mb-1">10+</div>
+            <div class="text-xs text-muted tracking-wide">CTF résolus</div>
+          </div>
+          <div class="stat-card p-6 rounded-xl border border-border bg-surface text-center">
+            <div class="text-3xl font-bold font-mono text-white mb-1">2</div>
+            <div class="text-xs text-muted tracking-wide">Apps déployées</div>
+          </div>
+          <div class="stat-card p-6 rounded-xl border border-border bg-surface text-center">
+            <div class="text-3xl font-bold font-mono text-accent mb-1">1</div>
+            <div class="text-xs text-muted tracking-wide">Home lab complet</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ACTIVITÉ TECHNIQUE -->
+    <section id="activite-technique" class="py-24 px-6 bg-bg-deep/40" aria-labelledby="activite-title">
+      <div class="max-w-6xl mx-auto">
+        <div class="section-header mb-16">
+          <span class="text-accent font-mono text-xs tracking-widest">05 — ACTIVITÉ TECHNIQUE</span>
+          <h2 id="activite-title" class="text-3xl font-bold text-white mt-2">Activité technique</h2>
+          <p class="text-slate-500 text-sm mt-2 max-w-md">Présence active, documentation et veille continue en cybersécurité.</p>
+        </div>
+        <div class="grid gap-6 md:grid-cols-3">
+          <article class="skill-card group rounded-[28px] border border-border bg-surface/80 backdrop-blur-xl p-8 transition-all duration-300 hover:border-accent/30 hover:bg-surface reveal">
+            <div class="flex items-center gap-3 mb-6">
+              <div class="w-12 h-12 rounded-3xl bg-accent/10 flex items-center justify-center text-accent" aria-hidden="true"><i class="fa-brands fa-linkedin-in text-xl"></i></div>
+              <div>
+                <h3 class="text-lg font-semibold text-white">Publications — LinkedIn</h3>
+                <p class="text-xs font-mono text-accent">Home lab · AD · WEF · Réseau</p>
+              </div>
+            </div>
+            <p class="text-slate-400 text-sm leading-relaxed">Partage régulier de ma progression sur le home lab cybersécurité — Active Directory, WEF, réseau, sécurité défensive.</p>
+            <a href="https://www.linkedin.com/posts/rodrigue-balogou-73329a349_cybersecurity-zabbix-blueteam-share-7461323402847485953-0LnX" target="_blank" rel="noopener noreferrer" class="mt-6 inline-flex items-center justify-center w-full rounded-2xl bg-accent px-4 py-3 text-sm font-semibold text-white transition hover:bg-accent-dim" aria-label="Voir mes publications LinkedIn (nouvelle fenêtre)">Voir mes publications</a>
+          </article>
+          <article class="skill-card group rounded-[28px] border border-border bg-surface/80 backdrop-blur-xl p-8 transition-all duration-300 hover:border-accent/30 hover:bg-surface reveal">
+            <div class="flex items-center gap-3 mb-6">
+              <div class="w-12 h-12 rounded-3xl bg-accent/10 flex items-center justify-center text-accent" aria-hidden="true"><i class="fa-brands fa-github text-xl"></i></div>
+              <div>
+                <h3 class="text-lg font-semibold text-white">Documentation — GitHub</h3>
+                <p class="text-xs font-mono text-accent">Lab · attaque/défense · projets web</p>
+              </div>
+            </div>
+            <p class="text-slate-400 text-sm leading-relaxed">Documentation complète du lab (architecture, configuration, sécurité), projets web et scénarios attaque/défense.</p>
+            <a href="https://github.com/Rodrigue-BALOGOU/entreprise-network-security-lab" target="_blank" rel="noopener noreferrer" class="mt-6 inline-flex items-center justify-center w-full rounded-2xl bg-accent px-4 py-3 text-sm font-semibold text-white transition hover:bg-accent-dim" aria-label="Voir le repository GitHub du lab (nouvelle fenêtre)">Voir le repository</a>
+          </article>
+          <article class="skill-card group rounded-[28px] border border-border bg-surface/80 backdrop-blur-xl p-8 transition-all duration-300 hover:border-accent/30 hover:bg-surface reveal">
+            <div class="flex items-center gap-3 mb-6">
+              <div class="w-12 h-12 rounded-3xl bg-accent/10 flex items-center justify-center text-accent" aria-hidden="true"><i class="fa-solid fa-eye text-xl"></i></div>
+              <div>
+                <h3 class="text-lg font-semibold text-white">Formation Continue</h3>
+                <p class="text-xs font-mono text-accent">Labs · CTF · Documentation</p>
+              </div>
+            </div>
+            <p class="text-slate-400 text-sm leading-relaxed">Une grande partie de mon apprentissage passe par la pratique: Home Labs, CTF, Documentation technique et expérimentation en environnement virtualisée</p>
+            <a href="https://github.com/Rodrigue-BALOGOU/" target="_blank" rel="noopener noreferrer" class="mt-6 inline-flex items-center justify-center w-full rounded-2xl bg-accent px-4 py-3 text-sm font-semibold text-white transition hover:bg-accent-dim" aria-label="Voir les ressources de formation (nouvelle fenêtre)">Voir </a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="py-24 px-6 bg-bg-deep/40" aria-labelledby="contact-title">
+      <div class="max-w-2xl mx-auto text-center">
+        <span class="text-accent font-mono text-xs tracking-widest">06 — CONTACT</span>
+        <h2 id="contact-title" class="text-3xl font-bold text-white mt-2 mb-4">Discutons</h2>
+        <p class="text-slate-500 text-sm max-w-md mx-auto mb-12 leading-relaxed">Disponible pour des collaborations, missions freelance, stage ou alternance — et toujours partant pour échanger sur la cybersécurité.</p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
+          <a href="mailto:Balogourodrigue2@gmail.com" class="contact-btn group inline-flex items-center gap-3 px-6 py-3.5 rounded-xl border border-border bg-surface hover:border-accent/40 transition-all duration-200 w-full sm:w-auto justify-center" aria-label="Envoyer un email à Rodrigue Balogou">
+            <i class="fa-solid fa-envelope text-accent" aria-hidden="true"></i>
+            <span class="text-sm text-slate-300 group-hover:text-white transition-colors">Balogourodrigue2@gmail.com</span>
+          </a>
+           <a href="tel:+2290161866950" class="contact-btn group inline-flex items-center gap-3 px-6 py-3.5 rounded-xl border border-border bg-surface hover:border-accent/40 transition-all duration-200 w-full sm:w-auto justify-center" aria-label="Appeler +229 01 61 86 69 50">
+            <i class="fa-solid fa-phone text-accent" aria-hidden="true"></i>
+            <span class="contact-phone text-sm group-hover:text-white transition-colors">+229 01 61 86 69 50</span>
+          </a>
+          <a href="https://linkedin.com/in/rodrigue-balogou-73329a349" target="_blank" rel="noopener noreferrer" class="contact-btn group inline-flex items-center gap-3 px-6 py-3.5 rounded-xl border border-border bg-surface hover:border-accent/40 transition-all duration-200 w-full sm:w-auto justify-center" aria-label="Mon profil LinkedIn (nouvelle fenêtre)">
+            <i class="fa-brands fa-linkedin text-accent" aria-hidden="true"></i>
+            <span class="text-sm text-slate-300 group-hover:text-white transition-colors">LinkedIn</span>
+          </a>
+          <a href="https://github.com/Rodrigue-BALOGOU" target="_blank" rel="noopener noreferrer" class="contact-btn group inline-flex items-center gap-3 px-6 py-3.5 rounded-xl border border-border bg-surface hover:border-accent/40 transition-all duration-200 w-full sm:w-auto justify-center" aria-label="Mon profil GitHub (nouvelle fenêtre)">
+            <i class="fa-brands fa-github text-accent" aria-hidden="true"></i>
+            <span class="text-sm text-slate-300 group-hover:text-white transition-colors">GitHub</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="site-footer" role="contentinfo">
+      <div class="max-w-6xl mx-auto px-6">
+        <div class="footer-body">
+          <div class="footer-brand-col">
+            <a href="#accueil" class="footer-logo">Rodrigue Balogou</a>
+            <p class="footer-desc">Étudiant en sécurité des systèmes et réseaux. Je construis des labs cybersécurité orientés entreprise et des applications web sécurisées.</p>
+            <p class="footer-location"><i class="fa-solid fa-location-dot" aria-hidden="true"></i> Bénin · Afrique de l'Ouest</p>
+            <div class="footer-socials">
+              <a href="https://linkedin.com/in/rodrigue-balogou-73329a349" target="_blank" rel="noopener noreferrer" class="footer-social" aria-label="LinkedIn de Rodrigue Balogou"><i class="fa-brands fa-linkedin-in"></i></a>
+              <a href="https://github.com/Rodrigue-BALOGOU" target="_blank" rel="noopener noreferrer" class="footer-social" aria-label="GitHub de Rodrigue Balogou"><i class="fa-brands fa-github"></i></a>
+              <a href="https://www.facebook.com/profile.php?id=61582814722378" target="_blank" rel="noopener noreferrer" class="footer-social" aria-label="Facebook de Rodrigue Balogou"><i class="fa-brands fa-facebook-f"></i></a>
+              <a href="https://wa.me/22961866950" target="_blank" rel="noopener noreferrer" class="footer-social footer-social--wa" aria-label="WhatsApp de Rodrigue Balogou"><i class="fa-brands fa-whatsapp"></i></a>
+            </div>
+          </div>
+          <div class="footer-nav-cols">
+            <div class="footer-nav-col">
+              <p class="footer-nav-title">Navigation</p>
+              <a href="#accueil"     class="footer-nav-link">Accueil</a>
+              <a href="#apropos"     class="footer-nav-link">À propos</a>
+              <a href="#projets"     class="footer-nav-link">Projets</a>
+              <a href="#competences" class="footer-nav-link">Compétences</a>
+            </div>
+            <div class="footer-nav-col">
+              <p class="footer-nav-title">Ressources</p>
+              <a href="#outils"   class="footer-nav-link">Outils</a>
+              <a href="#activite" class="footer-nav-link">Parcours</a>
+              <a href="#contact"  class="footer-nav-link">Contact</a>
+              <a href="./CV_Rodrigue_BALOGOU.pdf" download class="footer-nav-link" aria-label="Télécharger le CV de Rodrigue Balogou">Télécharger CV</a>
+            </div>
+          </div>
+          <div class="footer-status-col">
+            <p class="footer-nav-title">Disponibilité</p>
+            <div class="footer-status">
+              <span class="footer-status-dot" aria-hidden="true"></span><span>Disponible</span>
+            </div>
+            <p class="footer-status-detail">Stage · Alternance · Freelance</p>
+            <a href="mailto:Balogourodrigue2@gmail.com" class="footer-contact-btn" aria-label="Envoyer un email à Rodrigue Balogou"><i class="fa-solid fa-envelope" aria-hidden="true"></i> Me contacter</a>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span class="footer-copy-left">Conçu par <b>Rodrigue Balogou</b> </span>
+          <span class="footer-copy-right">© 2026 Rodrigue Balogou · Tous droits réservés</span>
+        </div>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
